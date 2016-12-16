@@ -126,11 +126,11 @@
   </entry>
   
   <entry>
-    <title>I love you</title>
+    <title>Vmware搭建集群</title>
     <link href="http://yoursite.com/2016/07/08/Vmware%E6%90%AD%E5%BB%BA%E9%9B%86%E7%BE%A4(%E5%9F%BA%E7%A1%80%E7%8E%AF%E5%A2%83)/"/>
     <id>http://yoursite.com/2016/07/08/Vmware搭建集群(基础环境)/</id>
     <published>2016-07-07T16:43:03.000Z</published>
-    <updated>2016-12-16T13:38:02.285Z</updated>
+    <updated>2016-12-16T13:54:32.448Z</updated>
     
     <content type="html"><![CDATA[<h2 id="Vmware搭建集群（基础环境）"><a href="#Vmware搭建集群（基础环境）" class="headerlink" title="Vmware搭建集群（基础环境）"></a>Vmware搭建集群（基础环境）</h2><h3 id="1-单台机器配置"><a href="#1-单台机器配置" class="headerlink" title="1. 单台机器配置"></a>1. 单台机器配置</h3><h4 id="安装Vmware-tools"><a href="#安装Vmware-tools" class="headerlink" title="安装Vmware tools"></a>安装Vmware tools</h4><p>正常步骤安装虚拟机，以Ubuntu15.10为例，安装好之后会发现平面分辨率不够，并不能充满整个屏幕，安装VMware tools 安装好之后重启可以发现Ubuntu系统充满整个屏幕。</p>
 <p>解压tools安装包文件夹<br>安装命令</p>
