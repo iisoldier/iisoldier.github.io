@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="多线程," />
+  <meta name="keywords" content="guava,java," />
 
 
 
@@ -100,7 +100,7 @@
 你愿意消耗一些内存空间来提升速度。
 你预料到某些键会被查询一次以上。
 缓存中存放的数据总量不会超">
-<meta property="og:updated_time" content="2016-12-22T17:01:53.465Z">
+<meta property="og:updated_time" content="2016-12-24T14:37:11.309Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Guava使用基础入门-cache">
 <meta name="twitter:description" content="Guava使用基础入门-cache0. 使用说明guava是Google的一个底层的库，里面包含了许多非常基础的应用，在很多Google的项目中都用到这个库，在平时项目的开发中，如果能善用这些方法，会使得我们的代码更加规范和健壮。
@@ -301,8 +301,20 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/多线程/" itemprop="url" rel="index">
-                    <span itemprop="name">多线程</span>
+                  <a href="/categories/guava/" itemprop="url" rel="index">
+                    <span itemprop="name">guava</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/guava/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
                   </a>
                 </span>
 
@@ -350,6 +362,7 @@
 </ul>
 <p>在使用缓存前，首先问自己一个问题：有没有合理的默认方法来加载或计算与键关联的值？如果有的话，你应当使用CacheLoader。如果没有，或者你想要覆盖默认的加载运算，同时保留”获取缓存-如果没有-则计算”[get-if-absent-compute]的原子语义，你应该在调用get时传入一个Callable实例。缓存元素也可以通过Cache.put方法直接插入，但自动加载是首选的，因为它可以更容易地推断所有缓存内容的一致性。</p>
 <h3 id="2-使用demo"><a href="#2-使用demo" class="headerlink" title="2. 使用demo"></a>2. 使用demo</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.isoldier.guava.cache;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.util.HashMap;</div><div class="line"><span class="keyword">import</span> java.util.Map;</div><div class="line"><span class="keyword">import</span> java.util.concurrent.ExecutionException;</div><div class="line"><span class="keyword">import</span> java.util.concurrent.TimeUnit;</div><div class="line"></div><div class="line"><span class="keyword">import</span> com.google.common.base.MoreObjects;</div><div class="line"><span class="keyword">import</span> com.google.common.cache.CacheBuilder;</div><div class="line"><span class="keyword">import</span> com.google.common.cache.CacheLoader;</div><div class="line"><span class="keyword">import</span> com.google.common.cache.LoadingCache;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CacheDemo</span> </span>&#123;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span> </span>&#123;</div><div class="line"></div><div class="line"></div><div class="line">		<span class="comment">// create a cache for employees based on their employee id</span></div><div class="line">		LoadingCache&lt;String, Employee&gt; employeeCache = CacheBuilder</div><div class="line">				.newBuilder().maximumSize(<span class="number">100</span>) <span class="comment">// maximum 100 records can be cached												</span></div><div class="line">				.expireAfterAccess(<span class="number">30</span>, TimeUnit.MINUTES) <span class="comment">// cache will expire after 30 minutes of access														</span></div><div class="line">				.build(<span class="keyword">new</span> CacheLoader&lt;String, Employee&gt;() &#123; <span class="comment">// build the cacheloader																</span></div><div class="line">					<span class="meta">@Override</span></div><div class="line">					<span class="function"><span class="keyword">public</span> Employee <span class="title">load</span><span class="params">(String empId)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">						<span class="comment">// make the expensive call</span></div><div class="line">						<span class="keyword">return</span> getFromDatabase(empId);</div><div class="line">					&#125;</div><div class="line">				&#125;);</div><div class="line"></div><div class="line">		<span class="keyword">try</span> &#123;</div><div class="line">			<span class="comment">// on first invocation, cache will be populated with corresponding</span></div><div class="line">			<span class="comment">// employee record</span></div><div class="line">			System.out.println(<span class="string">"Invocation #1"</span>);</div><div class="line">			System.out.println(employeeCache.get(<span class="string">"100"</span>));</div><div class="line">			System.out.println(employeeCache.get(<span class="string">"103"</span>));</div><div class="line">			System.out.println(employeeCache.get(<span class="string">"110"</span>));</div><div class="line"></div><div class="line">			<span class="comment">// second invocation, data will be returned from cache</span></div><div class="line">			System.out.println(<span class="string">"Invocation #2"</span>);</div><div class="line">			System.out.println(employeeCache.get(<span class="string">"100"</span>));</div><div class="line">			System.out.println(employeeCache.get(<span class="string">"103"</span>));</div><div class="line">			System.out.println(employeeCache.get(<span class="string">"110"</span>));</div><div class="line"></div><div class="line">		&#125; <span class="keyword">catch</span> (ExecutionException e) &#123;</div><div class="line">			e.printStackTrace();</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">static</span> Employee <span class="title">getFromDatabase</span><span class="params">(String empId)</span> </span>&#123;</div><div class="line"></div><div class="line">		Employee e1 = <span class="keyword">new</span> Employee(<span class="string">"Mahesh"</span>, <span class="string">"Finance"</span>, <span class="string">"100"</span>);</div><div class="line">		Employee e2 = <span class="keyword">new</span> Employee(<span class="string">"Rohan"</span>, <span class="string">"IT"</span>, <span class="string">"103"</span>);</div><div class="line">		Employee e3 = <span class="keyword">new</span> Employee(<span class="string">"Sohan"</span>, <span class="string">"Admin"</span>, <span class="string">"110"</span>);</div><div class="line"></div><div class="line">		Map&lt;String, Employee&gt; database = <span class="keyword">new</span> HashMap&lt;String, Employee&gt;();</div><div class="line"></div><div class="line">		database.put(<span class="string">"100"</span>, e1);</div><div class="line">		database.put(<span class="string">"103"</span>, e2);</div><div class="line">		database.put(<span class="string">"110"</span>, e3);</div><div class="line"></div><div class="line">		System.out.println(<span class="string">"Database hit for"</span> + empId);</div><div class="line"></div><div class="line">		<span class="keyword">return</span> database.get(empId);</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Employee</span> </span>&#123;</div><div class="line">	String name;</div><div class="line">	String dept;</div><div class="line">	String emplD;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="title">Employee</span><span class="params">(String name, String dept, String empID)</span> </span>&#123;</div><div class="line">		<span class="keyword">this</span>.name = name;</div><div class="line">		<span class="keyword">this</span>.dept = dept;</div><div class="line">		<span class="keyword">this</span>.emplD = empID;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</div><div class="line">		<span class="keyword">return</span> name;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>&#123;</div><div class="line">		<span class="keyword">this</span>.name = name;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getDept</span><span class="params">()</span> </span>&#123;</div><div class="line">		<span class="keyword">return</span> dept;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setDept</span><span class="params">(String dept)</span> </span>&#123;</div><div class="line">		<span class="keyword">this</span>.dept = dept;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getEmplD</span><span class="params">()</span> </span>&#123;</div><div class="line">		<span class="keyword">return</span> emplD;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setEmplD</span><span class="params">(String emplD)</span> </span>&#123;</div><div class="line">		<span class="keyword">this</span>.emplD = emplD;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="meta">@Override</span></div><div class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</div><div class="line">		<span class="keyword">return</span> MoreObjects.toStringHelper(Employee.class).add(<span class="string">"Name"</span>, name)</div><div class="line">				.add(<span class="string">"Department"</span>, dept).add(<span class="string">"Emp Id"</span>, emplD).toString();</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>程序运行结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">Invocation #1</div><div class="line">Database hit for100</div><div class="line">Employee&#123;Name=Mahesh, Department=Finance, Emp Id=100&#125;</div><div class="line">Database hit for103</div><div class="line">Employee&#123;Name=Rohan, Department=IT, Emp Id=103&#125;</div><div class="line">Database hit for110</div><div class="line">Employee&#123;Name=Sohan, Department=Admin, Emp Id=110&#125;</div><div class="line">Invocation #2</div><div class="line">Employee&#123;Name=Mahesh, Department=Finance, Emp Id=100&#125;</div><div class="line">Employee&#123;Name=Rohan, Department=IT, Emp Id=103&#125;</div><div class="line">Employee&#123;Name=Sohan, Department=Admin, Emp Id=110&#125;</div></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -371,7 +384,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/多线程/" rel="tag">#多线程</a>
+            <a href="/tags/guava/" rel="tag">#guava</a>
+          
+            <a href="/tags/java/" rel="tag">#java</a>
           
         </div>
       
@@ -380,16 +395,16 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/12/16/ExecutorService的使用/" rel="next" title="ExecutorService的使用">
-                <i class="fa fa-chevron-left"></i> ExecutorService的使用
+              <a href="/2016/12/16/maven常用操作/" rel="next" title="maven常用操作">
+                <i class="fa fa-chevron-left"></i> maven常用操作
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/12/22/java异常使用误区/" rel="prev" title="java异常的简单使用">
-                java异常的简单使用 <i class="fa fa-chevron-right"></i>
+              <a href="/2016/12/21/Guava使用基础入门-cache(2)/" rel="prev" title="Guava使用基础入门-cache(2)">
+                Guava使用基础入门-cache(2) <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -462,7 +477,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">9</span>
+              <span class="site-state-item-count">16</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -470,7 +485,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-count">12</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -479,7 +494,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-count">8</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
