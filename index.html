@@ -262,6 +262,316 @@
             
               
                 
+                <a class="post-title-link" href="/2016/12/27/zookeeper介绍与安装部署/" itemprop="url">
+                  zookeeper介绍及集群部署
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-12-27T15:43:03+08:00" content="2016-12-27">
+              2016-12-27
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/BigData/" itemprop="url" rel="index">
+                    <span itemprop="name">BigData</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/12/27/zookeeper介绍与安装部署/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/12/27/zookeeper介绍与安装部署/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="zookeeper-介绍及集群部署"><a href="#zookeeper-介绍及集群部署" class="headerlink" title="zookeeper 介绍及集群部署"></a>zookeeper 介绍及集群部署</h2><h3 id="1-环境说明及，准备zookeeper安装包"><a href="#1-环境说明及，准备zookeeper安装包" class="headerlink" title="1. 环境说明及，准备zookeeper安装包"></a>1. 环境说明及，准备zookeeper安装包</h3><ul>
+<li>安装环境</li>
+</ul>
+<p>本次安装环境是Vmware的虚拟机集群,系统版本<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">jinmeng@ubuntu:~$ lsb_release -a</div><div class="line">No LSB modules are available.</div><div class="line">Distributor ID:	Ubuntu</div><div class="line">Description:	Ubuntu 15.10</div><div class="line">Release:	15.10</div><div class="line">Codename:	wily</div></pre></td></tr></table></figure></p>
+<p>三台虚拟机采用NAT网络方式，ip地址分别是<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">192.168.24.110</div><div class="line">192.168.24.111</div><div class="line">192.168.24.112</div></pre></td></tr></table></figure></p>
+<ul>
+<li>zookeeper版本</li>
+</ul>
+<p>本次安装的版本是zookeeper-3.3.6.tar.gz</p>
+<h3 id="2-常用配置参数概念"><a href="#2-常用配置参数概念" class="headerlink" title="2. 常用配置参数概念"></a>2. 常用配置参数概念</h3><ul>
+<li><p>initLimit<br>这个配置项是用来配置 Zookeeper 接受客户端（这里所说的客户端不是用户连接 Zookeeper 服务器的客户端，而是 Zookeeper 服务器集群中连接到 Leader 的 Follower 服务器）初始化连接时最长能忍受多少个心跳时间间隔数。当已经超过 10 个心跳的时间（也就是 tickTime）长度后 Zookeeper 服务器还没有收到客户端的返回信息，那么表明这个客户端连接失败。总的时间长度就是 5*2000=10 秒</p>
+</li>
+<li><p>syncLimit<br>这个配置项标识 Leader 与 Follower 之间发送消息，请求和应答时间长度，最长不能超过多少个 tickTime 的时间长度，总的时间长度就是 2*2000=4 秒</p>
+</li>
+<li><p>server.A=B：C：D<br>其中 A 是一个数字，表示这个是第几号服务器；B 是这个服务器的 ip 地址；C 表示的是这个服务器与集群中的 Leader 服务器交换信息的端口；D 表示的是万一集群中的 Leader 服务器挂了，需要一个端口来重新进行选举，选出一个新的 Leader，而这个端口就是用来执行选举时服务器相互通信的端口。如果是伪集群的配置方式，由于 B 都是一样，所以不同的 Zookeeper 实例通信端口号不能一样，所以要给它们分配不同的端口号。</p>
+</li>
+<li><p>autopurge.snapRetainCount<br>自动清理snapshot 可以设置保留最近的snapshot的份数和清理的时间间隔<br>自动保留的份数参数，默认值是3，最小是3</p>
+</li>
+<li>autopurge.purgeInterval<br>自动清理的时间间隔，默认是0,也就是不自动清理，设置大于等于1的整数就可以启动自动清理</li>
+<li>myid 除了修改 zoo.cfg 配置文件，集群模式下还要配置一个文件 myid，这个文件在 dataDir 目录下，这个文件里面就有一个数据就是 A 的值，注意，必须就是A的值，两者应该保持一致。否则启动不成功。Zookeeper 启动时会读取这个文件，拿到里面的数据与 zoo.cfg 里面的配置信息比较从而判断到底是那个 server。<h3 id="3-zookeeper安装部署"><a href="#3-zookeeper安装部署" class="headerlink" title="3. zookeeper安装部署"></a>3. zookeeper安装部署</h3></li>
+<li>解压，设定zookeeper安装目录</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">cd ~/software</div><div class="line">tar -xvf  zookeeper-3.3.6.tar.gz</div></pre></td></tr></table></figure>
+<ul>
+<li>修改配置文件<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">cd zookeeper-3.3.6/conf/</div><div class="line">cp zoo_sample.cfg zoo.cfg</div><div class="line">vim zoo.cfg</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>修改配置文件为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"># The number of milliseconds of each tick</div><div class="line">tickTime=2000</div><div class="line"># The number of ticks that the initial</div><div class="line"># synchronization phase can take</div><div class="line">initLimit=10</div><div class="line"># The number of ticks that can pass between</div><div class="line"># sending a request and getting an acknowledgement</div><div class="line">syncLimit=5</div><div class="line"># the directory where the snapshot is stored.</div><div class="line">dataDir=/home/jinmeng/software/zookeeper-3.3.6/data</div><div class="line">dataLogDir=/home/jinmeng/software/zookeeper-3.3.6/logs</div><div class="line"># the port at which the clients will connect</div><div class="line">clientPort=2181</div><div class="line">server.1=192.168.24.110:2888:3888  </div><div class="line">server.2=192.168.24.111:2888:3888  </div><div class="line">server.3=192.168.24.112:2888:3888</div></pre></td></tr></table></figure>
+<ul>
+<li><p>创建dataDir 和dataLogDir 目录,与上述配置文件中路径一致</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mkdir -p zookeeper-3.3.6/logs</div><div class="line">mkdir -p zookeeper-3.3.6/data</div></pre></td></tr></table></figure>
+</li>
+<li><p>创建myid文件</p>
+</li>
+</ul>
+<p>分别在三台机器上的data目录中创建myid文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">cd ~/software/zookeeper-3.3.6/data</div><div class="line">echo &quot;1&quot; &gt;myid #192.168.24.110</div><div class="line">#echo &quot;2&quot; &gt;myid #192.168.24.111</div><div class="line">#echo &quot;2&quot; &gt;myid #192.168.24.112</div></pre></td></tr></table></figure></p>
+<h3 id="4-zookeeper启动"><a href="#4-zookeeper启动" class="headerlink" title="4. zookeeper启动"></a>4. zookeeper启动</h3><p>分别进入每台虚拟机的zookeeper-3.3.6的bin 目录,执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sh zkServer.sh start</div></pre></td></tr></table></figure>
+<p>查看角色</p>
+<p>192.168.24.110<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">jinmeng@ubuntu:~/software/zookeeper-3.3.6/bin$ sh zkServer.sh status</div><div class="line">JMX enabled by default</div><div class="line">Using config: /home/jinmeng/software/zookeeper-3.3.6/bin/../conf/zoo.cfg</div><div class="line">Mode: follower</div></pre></td></tr></table></figure></p>
+<p>192.168.24.111<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">jinmeng@ubuntu-slave1:~/software/zookeeper-3.3.6/bin$ sh zkServer.sh status</div><div class="line">JMX enabled by default</div><div class="line">Using config: /home/jinmeng/software/zookeeper-3.3.6/bin/../conf/zoo.cfg</div><div class="line">Mode: leader</div></pre></td></tr></table></figure></p>
+<p>192.168.24.112<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">jinmeng@ubuntu-slave2:~/software/zookeeper-3.3.6/bin$ sh zkServer.sh status</div><div class="line">JMX enabled by default</div><div class="line">Using config: /home/jinmeng/software/zookeeper-3.3.6/bin/../conf/zoo.cfg</div><div class="line">Mode: follower</div></pre></td></tr></table></figure></p>
+<h3 id="备注"><a href="#备注" class="headerlink" title="备注"></a>备注</h3><p>问题描述<br>Ubuntu启动zookeeper时启动不成功， 报错信息显示启动脚本有问题,实际上是shell问题导致的</p>
+<p>解决办法<br>jinmeng@ubuntu:~$ sudo dpkg-reconfigure dash<br>[sudo] password for jinmeng:<br>Package configuration</p>
+<p> <img src="http://ww1.sinaimg.cn/large/97be9d10gw1fb5e73ci42j20sg08vq4t.jpg" alt=""><br>选择no<br>然后启动<br>jinmeng@ubuntu:~/app/zookeeper/zookeeper-3.4.6/bin$ sh zkServer.sh start<br>JMX enabled by default<br>Using config: /home/jinmeng/app/zookeeper/zookeeper-3.4.6/bin/../conf/zoo.cfg<br>Starting zookeeper … STARTED</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/12/26/jstorm安装部署/" itemprop="url">
+                  jstorm环境搭建及入门实例
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-12-26T15:03:12+08:00" content="2016-12-26">
+              2016-12-26
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/jstorm/" itemprop="url" rel="index">
+                    <span itemprop="name">jstorm</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/12/26/jstorm安装部署/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/12/26/jstorm安装部署/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="jstrom-环境搭建及入门实例"><a href="#jstrom-环境搭建及入门实例" class="headerlink" title="jstrom 环境搭建及入门实例"></a>jstrom 环境搭建及入门实例</h3><h3 id="1-安装zookeeper"><a href="#1-安装zookeeper" class="headerlink" title="1. 安装zookeeper"></a>1. 安装zookeeper</h3><p>zookeeper的安装在这里不做介绍，可参考zookeeper安装相关文章，本文采用的单机安装部署</p>
+<h3 id="2-安装Python"><a href="#2-安装Python" class="headerlink" title="2. 安装Python"></a>2. 安装Python</h3><p>一般机器中都自带Python，无需自己手动安装，检查自己的机器中是否有安装，没有则自己安装</p>
+<h3 id="3-安装jdk"><a href="#3-安装jdk" class="headerlink" title="3. 安装jdk"></a>3. 安装jdk</h3><p>基本功，在此不做介绍</p>
+<h3 id="4-安装jstorm"><a href="#4-安装jstorm" class="headerlink" title="4. 安装jstorm"></a>4. 安装jstorm</h3><p>以jstorm-2.1.1.zip为例,配置环境变量</p>
+<pre><code>unzip jstorm-2.1.1.zip
+vi ~/.bashrc
+export JSTORM_HOME=/XXXXX/XXXX
+export PATH=$PATH:$JSTORM_HOME/bin
+</code></pre><p>配置$JSTORM_HOME/conf/storm.yaml</p>
+<p>配置项：</p>
+<ul>
+<li>storm.zookeeper.servers: 表示zookeeper 的地址，</li>
+<li>nimbus.host: 表示nimbus的地址</li>
+<li>storm.zookeeper.root: 表示JStorm在zookeeper中的根目录，当多个JStorm共享一个zookeeper时，需要设置该选项，默认即为“/jstorm”</li>
+<li>storm.local.dir: 表示JStorm临时数据存放目录，需要保证JStorm程序对该目录有写权限</li>
+<li>java.library.path: Zeromq 和java zeromq library的安装目录，默认”/usr/local/lib:/opt/local/lib:/usr/lib”</li>
+<li>supervisor.slots.ports: 表示Supervisor 提供的端口Slot列表，注意不要和其他端口发生冲突，默认是68xx，而Storm的是67xx</li>
+<li>topology.enable.classloader: false, 默认关闭classloader，如果应用的jar与JStorm的依赖的jar发生冲突，比如应用使用thrift9，但jstorm使用thrift7时，就需要打开classloader。建议在集群级别上默认关闭，在具体需要隔离的topology上打开这个选项。</li>
+</ul>
+<p>放上一个自己配置配置文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div></pre></td><td class="code"><pre><div class="line">########### These MUST be filled in for a storm configuration</div><div class="line"> storm.zookeeper.servers:</div><div class="line">     - &quot;192.168.24.128&quot;</div><div class="line"> storm.zookeeper.ports: 2181</div><div class="line"> storm.zookeeper.root: &quot;/jstorm&quot;</div><div class="line"></div><div class="line"> cluster.name: &quot;vm-jstorm&quot;</div><div class="line"></div><div class="line">#nimbus.host/nimbus.host.start.supervisor is being used by $JSTORM_HOME/bin/start.sh</div><div class="line">#it only support IP, please don&apos;t set hostname</div><div class="line"># For example</div><div class="line"># nimbus.host: &quot;10.132.168.10, 10.132.168.45&quot;</div><div class="line"> nimbus.host: &quot;192.168.24.128&quot;</div><div class="line">#nimbus.host.start.supervisor: false</div><div class="line"></div><div class="line"># %JSTORM_HOME% is the jstorm home directory</div><div class="line"> storm.local.dir: &quot;%JSTORM_HOME%/data&quot;</div><div class="line"># storm.local.dir: &quot;/home/jinmeng/app/jstorm-2.1.1/data&quot;</div><div class="line"># please set absolute path, default path is JSTORM_HOME/logs</div><div class="line"># jstorm.log.dir: &quot;/home/jinmeng/app/jstorm-2.1.1/logs&quot;</div><div class="line"> jstorm.log.dir: &quot;%JSTORM_HOME%/app/logs&quot;</div><div class="line"># java.library.path: &quot;/usr/local/lib:/opt/local/lib:/usr/lib&quot;</div><div class="line"></div><div class="line"></div><div class="line"># if supervisor.slots.ports is null,</div><div class="line"># the port list will be generated by cpu cores and system memory size</div><div class="line"># for example,</div><div class="line"># there are cpu_num = system_physical_cpu_num/supervisor.slots.port.cpu.weight</div><div class="line"># there are mem_num = system_physical_memory_size/(worker.memory.size * supervisor.slots.port.mem.weight)</div><div class="line"># The final port number is min(cpu_num, mem_num)</div><div class="line"># supervisor.slots.ports.base: 6800</div><div class="line"># supervisor.slots.port.cpu.weight: 1.2</div><div class="line"># supervisor.slots.port.mem.weight: 0.7</div><div class="line"># supervisor.slots.ports: null</div><div class="line"> supervisor.slots.ports:</div><div class="line">     - 6800</div><div class="line">     - 6801</div><div class="line">     - 6802</div><div class="line">     - 6803</div><div class="line"></div><div class="line"># Default disable user-define classloader</div><div class="line"># If there are jar conflict between jstorm and application,</div><div class="line"># please enable it</div><div class="line"># topology.enable.classloader: false</div><div class="line"></div><div class="line"># enable supervisor use cgroup to make resource isolation</div><div class="line"># Before enable it, you should make sure:</div><div class="line">#       1. Linux version (&gt;= 2.6.18)</div><div class="line">#       2. Have installed cgroup (check the file&apos;s existence:/proc/cgroups)</div><div class="line">#       3. You should start your supervisor on root</div><div class="line"># You can get more about cgroup:</div><div class="line">#   http://t.cn/8s7nexU</div><div class="line"># supervisor.enable.cgroup: false</div><div class="line"></div><div class="line"></div><div class="line">### Netty will send multiple messages in one batch  </div><div class="line">### Setting true will improve throughput, but more latency</div><div class="line"># storm.messaging.netty.transfer.async.batch: true</div><div class="line"></div><div class="line">### if this setting  is true, it will use disruptor as internal queue, which size is limited</div><div class="line">### otherwise, it will use LinkedBlockingDeque as internal queue , which size is unlimited</div><div class="line">### generally when this setting is true, the topology will be more stable,</div><div class="line">### but when there is a data loop flow, for example A -&gt; B -&gt; C -&gt; A</div><div class="line">### and the data flow occur blocking, please set this as false</div><div class="line"># topology.buffer.size.limited: true</div><div class="line"></div><div class="line">### default worker memory size, unit is byte default 2G</div><div class="line">#  worker.memory.size: 2147483648</div><div class="line"> worker.memory.size: 536870912</div><div class="line"></div><div class="line"># Metrics Monitor</div><div class="line"># topology.performance.metrics: it is the switch flag for performance</div><div class="line"># purpose. When it is disabled, the data of timer and histogram metrics</div><div class="line"># will not be collected.</div><div class="line"># topology.alimonitor.metrics.post: If it is disable, metrics data</div><div class="line"># will only be printed to log. If it is enabled, the metrics data will be</div><div class="line"># posted to alimonitor besides printing to log.</div><div class="line"># topology.performance.metrics: true</div><div class="line"># topology.alimonitor.metrics.post: false</div><div class="line"></div><div class="line"># UI MultiCluster</div><div class="line"># Following is an example of multicluster UI configuration</div><div class="line"> ui.clusters:</div><div class="line">    - &#123;</div><div class="line">        name: &quot;vm-jstorm&quot;,</div><div class="line">        zkRoot: &quot;/jstorm&quot;,</div><div class="line">        zkServers:</div><div class="line">             [&quot;192.168.24.128&quot;],</div><div class="line">        zkPort: 2181,</div><div class="line">      &#125;</div></pre></td></tr></table></figure></p>
+<p>在提交jar的节点上执行:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">#mkdir ~/.jstorm</div><div class="line">#cp -f $JSTORM_HOME/conf/storm.yaml ~/.jstorm</div></pre></td></tr></table></figure></p>
+<h3 id="4-安装jstorm-UI"><a href="#4-安装jstorm-UI" class="headerlink" title="4. 安装jstorm UI"></a>4. 安装jstorm UI</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">mkdir ~/.jstorm</div><div class="line">cp -f $JSTORM_HOME/conf/storm.yaml ~/.jstorm</div><div class="line">下载tomcat 7.x （以apache-tomcat-7.0.37 为例）</div><div class="line">tar -xzf apache-tomcat-7.0.37.tar.gz</div><div class="line">cd apache-tomcat-7.0.37</div><div class="line">cd webapps</div><div class="line">cp $JSTORM_HOME/jstorm-ui-2.1.1.war ./</div><div class="line">mv ROOT ROOT.old</div><div class="line">ln -s jstorm-ui-2.1.1 ROOT           这个地方可能变化，是根据你的JStorm版本来确定，比如当2.1.1时，是ln -s jstorm-2.1.1 ROOT</div><div class="line">另外不是 ln -s jstorm-ui-2.1.1.war ROOT 这个要小心</div><div class="line">cd ../bin</div><div class="line">./startup.sh</div></pre></td></tr></table></figure>
+<h3 id="4-jstrom入门实例"><a href="#4-jstrom入门实例" class="headerlink" title="4. jstrom入门实例"></a>4. jstrom入门实例</h3><p>一个统计jstorm的word-count实例，详见</p>
+<blockquote>
+<p>github word count工程<br><a href="https://github.com/iisoldier/jstorm.git" target="_blank" rel="external">https://github.com/iisoldier/jstorm.git</a></p>
+</blockquote>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/12/23/atom原子性/" itemprop="url">
                   使用atom来实现线程安全
                 </a>
@@ -1340,260 +1650,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/12/16/maven常用操作/" itemprop="url">
-                  maven常用操作
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-12-16T22:43:03+08:00" content="2016-12-16">
-              2016-12-16
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/maven/" itemprop="url" rel="index">
-                    <span itemprop="name">maven</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/12/16/maven常用操作/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/12/16/maven常用操作/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="1-创建maven项目"><a href="#1-创建maven项目" class="headerlink" title="1. 创建maven项目"></a>1. 创建maven项目</h2><p>普通项目<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mvn archetype:generate -DgroupId=com.ect -DartifactId=log4jDemo -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false -DarchetypeCatalog=internal</div></pre></td></tr></table></figure></p>
-<p>web项目<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mvn archetype:generate -DgroupId=com.ect -DartifactId=edhConsumer -DarchetypeArtifactId=maven-archetype-webapp -DinteractiveMode=false -DarchetypeCatalog=internal</div></pre></td></tr></table></figure></p>
-<p>创建完成后<br>mvn eclipse:eclipse<br>然后用eclipse 导入已存在的maven project</p>
-<h2 id="2-maven项目的classpath问题"><a href="#2-maven项目的classpath问题" class="headerlink" title="2. maven项目的classpath问题"></a>2. maven项目的classpath问题</h2><p>当eclipse的工程中找不到maven dependency 的包时，可以在.classpath 文件中增加如下<br>普通项目<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">      <span class="tag">&lt;<span class="name">classpathentry</span> <span class="attr">kind</span>=<span class="string">"con"</span> <span class="attr">path</span>=<span class="string">"org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER"</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">attributes</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">attribute</span> <span class="attr">name</span>=<span class="string">"maven.pomderived"</span> <span class="attr">value</span>=<span class="string">"true"</span>/&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">attribute</span> <span class="attr">name</span>=<span class="string">"org.eclipse.jst.component.nondependency"</span> <span class="attr">value</span>=<span class="string">""</span>/&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">attributes</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">classpathentry</span>&gt;</span></div></pre></td></tr></table></figure></p>
-<p>web工程<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">      <span class="tag">&lt;<span class="name">classpathentry</span> <span class="attr">kind</span>=<span class="string">"con"</span> <span class="attr">path</span>=<span class="string">"org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER"</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">attributes</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">attribute</span> <span class="attr">name</span>=<span class="string">"maven.pomderived"</span> <span class="attr">value</span>=<span class="string">"true"</span>/&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">attribute</span> <span class="attr">name</span>=<span class="string">"org.eclipse.jst.component.dependency"</span> <span class="attr">value</span>=<span class="string">"/WEB-INF/lib"</span>/&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">attributes</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">classpathentry</span>&gt;</span></div></pre></td></tr></table></figure></p>
-<h2 id="3-清理lastUpdated文件命令"><a href="#3-清理lastUpdated文件命令" class="headerlink" title="3. 清理lastUpdated文件命令"></a>3. 清理lastUpdated文件命令</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">find -name \*.lastUpdated -exec rm -fv &#123;&#125; +</div></pre></td></tr></table></figure>
-<h2 id="4-下载源码包"><a href="#4-下载源码包" class="headerlink" title="4. 下载源码包"></a>4. 下载源码包</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mvn dependency:sources -DdownloadSources=true</div></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/12/16/ExecutorService的使用/" itemprop="url">
-                  ExecutorService的使用
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-12-16T11:43:03+08:00" content="2016-12-16">
-              2016-12-16
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/多线程/" itemprop="url" rel="index">
-                    <span itemprop="name">多线程</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/12/16/ExecutorService的使用/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/12/16/ExecutorService的使用/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="ExecutorService的使用"><a href="#ExecutorService的使用" class="headerlink" title="ExecutorService的使用"></a>ExecutorService的使用</h1><h3 id="1-创建ExecutorService的方式"><a href="#1-创建ExecutorService的方式" class="headerlink" title="1. 创建ExecutorService的方式"></a>1. 创建ExecutorService的方式</h3><p>创建ExecutorService的方式有好几种采用哪种方式创建应该依赖于具体的情况，我们也可以通过工厂模式创建ExecutorService，下面是三种常见的创建ExecutorService的方式</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">ExecutorService executorService1 = Executors.newSingleThreadExecutor();</div><div class="line"></div><div class="line">ExecutorService executorService2 = Executors.newFixedThreadPool(<span class="number">10</span>);</div><div class="line"></div><div class="line">ExecutorService executorService3 = Executors.newScheduledThreadPool(<span class="number">10</span>);</div></pre></td></tr></table></figure>
-<h3 id="2-使用ExecutorService的方式"><a href="#2-使用ExecutorService的方式" class="headerlink" title="2. 使用ExecutorService的方式"></a>2. 使用ExecutorService的方式</h3><p>以下是集中常见的使用方式<br>execute(Runnable)<br>submit(Runnable)<br>submit(Callable)<br>invokeAny(…)<br>invokeAll(…)</p>
-<h4 id="execute-Runnable-使用demo"><a href="#execute-Runnable-使用demo" class="headerlink" title="execute(Runnable)使用demo"></a>execute(Runnable)使用demo</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">ExecutorService executorService = Executors.newSingleThreadExecutor();</div><div class="line"></div><div class="line">executorService.execute(<span class="keyword">new</span> Runnable() &#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"Asynchronous task"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;);</div><div class="line"></div><div class="line">executorService.shutdown();</div></pre></td></tr></table></figure>
-<h4 id="submit-Runnable-使用demo"><a href="#submit-Runnable-使用demo" class="headerlink" title="submit(Runnable)使用demo"></a>submit(Runnable)使用demo</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">Future future = executorService.submit(<span class="keyword">new</span> Runnable() &#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"Asynchronous task"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;);</div><div class="line"></div><div class="line">future.get();  <span class="comment">//returns null if the task has finished correctly.</span></div></pre></td></tr></table></figure>
-<h4 id="submit-Callable-使用demo"><a href="#submit-Callable-使用demo" class="headerlink" title="submit(Callable)使用demo"></a>submit(Callable)使用demo</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">Future future = executorService.submit(<span class="keyword">new</span> Callable()&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">        System.out.println(<span class="string">"Asynchronous Callable"</span>);</div><div class="line">        <span class="keyword">return</span> <span class="string">"Callable Result"</span>;</div><div class="line">    &#125;</div><div class="line">&#125;);</div><div class="line"></div><div class="line">System.out.println(<span class="string">"future.get() = "</span> + future.get());</div></pre></td></tr></table></figure>
-<p>上述代码的执行结果为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Asynchronous Callable</div><div class="line">future.get() = Callable Result</div></pre></td></tr></table></figure></p>
-<h4 id="invokeAny-…-使用demo"><a href="#invokeAny-…-使用demo" class="headerlink" title="invokeAny(…)使用demo"></a>invokeAny(…)使用demo</h4><p>该方法会唤醒其中任意一个线程去启动，如下的代码的输出的结果可能会出现Task1 也有可能是Task2 或者Task3  随机出现任意一个<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">ExecutorService executorService = Executors.newSingleThreadExecutor();</div><div class="line"></div><div class="line">Set&lt;Callable&lt;String&gt;&gt; callables = <span class="keyword">new</span> HashSet&lt;Callable&lt;String&gt;&gt;();</div><div class="line"></div><div class="line">callables.add(<span class="keyword">new</span> Callable&lt;String&gt;() &#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="string">"Task 1"</span>;</div><div class="line">    &#125;</div><div class="line">&#125;);</div><div class="line">callables.add(<span class="keyword">new</span> Callable&lt;String&gt;() &#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="string">"Task 2"</span>;</div><div class="line">    &#125;</div><div class="line">&#125;);</div><div class="line">callables.add(<span class="keyword">new</span> Callable&lt;String&gt;() &#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="string">"Task 3"</span>;</div><div class="line">    &#125;</div><div class="line">&#125;);</div><div class="line"></div><div class="line">String result = executorService.invokeAny(callables);</div><div class="line"></div><div class="line">System.out.println(<span class="string">"result = "</span> + result);</div><div class="line"></div><div class="line">executorService.shutdown();</div></pre></td></tr></table></figure></p>
-<h4 id="invokeAll-…-使用demo"><a href="#invokeAll-…-使用demo" class="headerlink" title="invokeAll(…)使用demo"></a>invokeAll(…)使用demo</h4><p>唤醒所有线程去执行<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">ExecutorService executorService = Executors.newSingleThreadExecutor();</div><div class="line"></div><div class="line">Set&lt;Callable&lt;String&gt;&gt; callables = <span class="keyword">new</span> HashSet&lt;Callable&lt;String&gt;&gt;();</div><div class="line"></div><div class="line">callables.add(<span class="keyword">new</span> Callable&lt;String&gt;() &#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="string">"Task 1"</span>;</div><div class="line">    &#125;</div><div class="line">&#125;);</div><div class="line">callables.add(<span class="keyword">new</span> Callable&lt;String&gt;() &#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="string">"Task 2"</span>;</div><div class="line">    &#125;</div><div class="line">&#125;);</div><div class="line">callables.add(<span class="keyword">new</span> Callable&lt;String&gt;() &#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="string">"Task 3"</span>;</div><div class="line">    &#125;</div><div class="line">&#125;);</div><div class="line"></div><div class="line">List&lt;Future&lt;String&gt;&gt; futures = executorService.invokeAll(callables);</div><div class="line"></div><div class="line"><span class="keyword">for</span>(Future&lt;String&gt; future : futures)&#123;</div><div class="line">    System.out.println(<span class="string">"future.get = "</span> + future.get());</div><div class="line">&#125;</div><div class="line"></div><div class="line">executorService.shutdown();</div></pre></td></tr></table></figure></p>
-<p>上述代码的执行结果是<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">future.get = Task 1</div><div class="line">future.get = Task 3</div><div class="line">future.get = Task 2</div></pre></td></tr></table></figure></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1639,7 +1695,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">16</span>
+              <span class="site-state-item-count">18</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1647,7 +1703,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-count">14</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -1656,7 +1712,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-count">10</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

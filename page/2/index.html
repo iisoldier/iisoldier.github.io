@@ -262,6 +262,260 @@
             
               
                 
+                <a class="post-title-link" href="/2016/12/16/maven常用操作/" itemprop="url">
+                  maven常用操作
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-12-16T22:43:03+08:00" content="2016-12-16">
+              2016-12-16
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/maven/" itemprop="url" rel="index">
+                    <span itemprop="name">maven</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/12/16/maven常用操作/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/12/16/maven常用操作/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="1-创建maven项目"><a href="#1-创建maven项目" class="headerlink" title="1. 创建maven项目"></a>1. 创建maven项目</h2><p>普通项目<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mvn archetype:generate -DgroupId=com.ect -DartifactId=log4jDemo -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false -DarchetypeCatalog=internal</div></pre></td></tr></table></figure></p>
+<p>web项目<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mvn archetype:generate -DgroupId=com.ect -DartifactId=edhConsumer -DarchetypeArtifactId=maven-archetype-webapp -DinteractiveMode=false -DarchetypeCatalog=internal</div></pre></td></tr></table></figure></p>
+<p>创建完成后<br>mvn eclipse:eclipse<br>然后用eclipse 导入已存在的maven project</p>
+<h2 id="2-maven项目的classpath问题"><a href="#2-maven项目的classpath问题" class="headerlink" title="2. maven项目的classpath问题"></a>2. maven项目的classpath问题</h2><p>当eclipse的工程中找不到maven dependency 的包时，可以在.classpath 文件中增加如下<br>普通项目<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">      <span class="tag">&lt;<span class="name">classpathentry</span> <span class="attr">kind</span>=<span class="string">"con"</span> <span class="attr">path</span>=<span class="string">"org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER"</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">attributes</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">attribute</span> <span class="attr">name</span>=<span class="string">"maven.pomderived"</span> <span class="attr">value</span>=<span class="string">"true"</span>/&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">attribute</span> <span class="attr">name</span>=<span class="string">"org.eclipse.jst.component.nondependency"</span> <span class="attr">value</span>=<span class="string">""</span>/&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">attributes</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">classpathentry</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>web工程<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">      <span class="tag">&lt;<span class="name">classpathentry</span> <span class="attr">kind</span>=<span class="string">"con"</span> <span class="attr">path</span>=<span class="string">"org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER"</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">attributes</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">attribute</span> <span class="attr">name</span>=<span class="string">"maven.pomderived"</span> <span class="attr">value</span>=<span class="string">"true"</span>/&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">attribute</span> <span class="attr">name</span>=<span class="string">"org.eclipse.jst.component.dependency"</span> <span class="attr">value</span>=<span class="string">"/WEB-INF/lib"</span>/&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">attributes</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">classpathentry</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<h2 id="3-清理lastUpdated文件命令"><a href="#3-清理lastUpdated文件命令" class="headerlink" title="3. 清理lastUpdated文件命令"></a>3. 清理lastUpdated文件命令</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">find -name \*.lastUpdated -exec rm -fv &#123;&#125; +</div></pre></td></tr></table></figure>
+<h2 id="4-下载源码包"><a href="#4-下载源码包" class="headerlink" title="4. 下载源码包"></a>4. 下载源码包</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mvn dependency:sources -DdownloadSources=true</div></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/12/16/ExecutorService的使用/" itemprop="url">
+                  ExecutorService的使用
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-12-16T11:43:03+08:00" content="2016-12-16">
+              2016-12-16
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/多线程/" itemprop="url" rel="index">
+                    <span itemprop="name">多线程</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/12/16/ExecutorService的使用/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/12/16/ExecutorService的使用/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="ExecutorService的使用"><a href="#ExecutorService的使用" class="headerlink" title="ExecutorService的使用"></a>ExecutorService的使用</h1><h3 id="1-创建ExecutorService的方式"><a href="#1-创建ExecutorService的方式" class="headerlink" title="1. 创建ExecutorService的方式"></a>1. 创建ExecutorService的方式</h3><p>创建ExecutorService的方式有好几种采用哪种方式创建应该依赖于具体的情况，我们也可以通过工厂模式创建ExecutorService，下面是三种常见的创建ExecutorService的方式</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">ExecutorService executorService1 = Executors.newSingleThreadExecutor();</div><div class="line"></div><div class="line">ExecutorService executorService2 = Executors.newFixedThreadPool(<span class="number">10</span>);</div><div class="line"></div><div class="line">ExecutorService executorService3 = Executors.newScheduledThreadPool(<span class="number">10</span>);</div></pre></td></tr></table></figure>
+<h3 id="2-使用ExecutorService的方式"><a href="#2-使用ExecutorService的方式" class="headerlink" title="2. 使用ExecutorService的方式"></a>2. 使用ExecutorService的方式</h3><p>以下是集中常见的使用方式<br>execute(Runnable)<br>submit(Runnable)<br>submit(Callable)<br>invokeAny(…)<br>invokeAll(…)</p>
+<h4 id="execute-Runnable-使用demo"><a href="#execute-Runnable-使用demo" class="headerlink" title="execute(Runnable)使用demo"></a>execute(Runnable)使用demo</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">ExecutorService executorService = Executors.newSingleThreadExecutor();</div><div class="line"></div><div class="line">executorService.execute(<span class="keyword">new</span> Runnable() &#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"Asynchronous task"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;);</div><div class="line"></div><div class="line">executorService.shutdown();</div></pre></td></tr></table></figure>
+<h4 id="submit-Runnable-使用demo"><a href="#submit-Runnable-使用demo" class="headerlink" title="submit(Runnable)使用demo"></a>submit(Runnable)使用demo</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">Future future = executorService.submit(<span class="keyword">new</span> Runnable() &#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"Asynchronous task"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;);</div><div class="line"></div><div class="line">future.get();  <span class="comment">//returns null if the task has finished correctly.</span></div></pre></td></tr></table></figure>
+<h4 id="submit-Callable-使用demo"><a href="#submit-Callable-使用demo" class="headerlink" title="submit(Callable)使用demo"></a>submit(Callable)使用demo</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">Future future = executorService.submit(<span class="keyword">new</span> Callable()&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">        System.out.println(<span class="string">"Asynchronous Callable"</span>);</div><div class="line">        <span class="keyword">return</span> <span class="string">"Callable Result"</span>;</div><div class="line">    &#125;</div><div class="line">&#125;);</div><div class="line"></div><div class="line">System.out.println(<span class="string">"future.get() = "</span> + future.get());</div></pre></td></tr></table></figure>
+<p>上述代码的执行结果为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Asynchronous Callable</div><div class="line">future.get() = Callable Result</div></pre></td></tr></table></figure></p>
+<h4 id="invokeAny-…-使用demo"><a href="#invokeAny-…-使用demo" class="headerlink" title="invokeAny(…)使用demo"></a>invokeAny(…)使用demo</h4><p>该方法会唤醒其中任意一个线程去启动，如下的代码的输出的结果可能会出现Task1 也有可能是Task2 或者Task3  随机出现任意一个<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">ExecutorService executorService = Executors.newSingleThreadExecutor();</div><div class="line"></div><div class="line">Set&lt;Callable&lt;String&gt;&gt; callables = <span class="keyword">new</span> HashSet&lt;Callable&lt;String&gt;&gt;();</div><div class="line"></div><div class="line">callables.add(<span class="keyword">new</span> Callable&lt;String&gt;() &#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="string">"Task 1"</span>;</div><div class="line">    &#125;</div><div class="line">&#125;);</div><div class="line">callables.add(<span class="keyword">new</span> Callable&lt;String&gt;() &#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="string">"Task 2"</span>;</div><div class="line">    &#125;</div><div class="line">&#125;);</div><div class="line">callables.add(<span class="keyword">new</span> Callable&lt;String&gt;() &#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="string">"Task 3"</span>;</div><div class="line">    &#125;</div><div class="line">&#125;);</div><div class="line"></div><div class="line">String result = executorService.invokeAny(callables);</div><div class="line"></div><div class="line">System.out.println(<span class="string">"result = "</span> + result);</div><div class="line"></div><div class="line">executorService.shutdown();</div></pre></td></tr></table></figure></p>
+<h4 id="invokeAll-…-使用demo"><a href="#invokeAll-…-使用demo" class="headerlink" title="invokeAll(…)使用demo"></a>invokeAll(…)使用demo</h4><p>唤醒所有线程去执行<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">ExecutorService executorService = Executors.newSingleThreadExecutor();</div><div class="line"></div><div class="line">Set&lt;Callable&lt;String&gt;&gt; callables = <span class="keyword">new</span> HashSet&lt;Callable&lt;String&gt;&gt;();</div><div class="line"></div><div class="line">callables.add(<span class="keyword">new</span> Callable&lt;String&gt;() &#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="string">"Task 1"</span>;</div><div class="line">    &#125;</div><div class="line">&#125;);</div><div class="line">callables.add(<span class="keyword">new</span> Callable&lt;String&gt;() &#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="string">"Task 2"</span>;</div><div class="line">    &#125;</div><div class="line">&#125;);</div><div class="line">callables.add(<span class="keyword">new</span> Callable&lt;String&gt;() &#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="string">"Task 3"</span>;</div><div class="line">    &#125;</div><div class="line">&#125;);</div><div class="line"></div><div class="line">List&lt;Future&lt;String&gt;&gt; futures = executorService.invokeAll(callables);</div><div class="line"></div><div class="line"><span class="keyword">for</span>(Future&lt;String&gt; future : futures)&#123;</div><div class="line">    System.out.println(<span class="string">"future.get = "</span> + future.get());</div><div class="line">&#125;</div><div class="line"></div><div class="line">executorService.shutdown();</div></pre></td></tr></table></figure></p>
+<p>上述代码的执行结果是<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">future.get = Task 1</div><div class="line">future.get = Task 3</div><div class="line">future.get = Task 2</div></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/12/14/MySQL查询语句执行顺序及优化实例/" itemprop="url">
                   mysql查询优化入门
                 </a>
@@ -1150,7 +1404,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">16</span>
+              <span class="site-state-item-count">18</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1158,7 +1412,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-count">14</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -1167,7 +1421,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-count">10</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

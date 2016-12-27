@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2016/12/26/jstorm%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2/</loc>
+    
+    <lastmod>2016-12-27T08:57:52.804Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2016/12/27/zookeeper%E4%BB%8B%E7%BB%8D%E4%B8%8E%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2/</loc>
+    
+    <lastmod>2016-12-27T07:53:07.589Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2016/12/21/guava%E4%BD%BF%E7%94%A8%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8-cache/</loc>
     
     <lastmod>2016-12-24T14:37:11.309Z</lastmod>

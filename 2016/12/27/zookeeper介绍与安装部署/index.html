@@ -1,0 +1,699 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="zookeeper," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="zookeeper 介绍及集群部署1. 环境说明及，准备zookeeper安装包
+安装环境
+
+本次安装环境是Vmware的虚拟机集群,系统版本123456jinmeng@ubuntu:~$ lsb_release -aNo LSB modules are available.Distributor ID:	UbuntuDescription:	Ubuntu 15.10Release:	15.10C">
+<meta property="og:type" content="article">
+<meta property="og:title" content="zookeeper介绍及集群部署">
+<meta property="og:url" content="http://yoursite.com/2016/12/27/zookeeper介绍与安装部署/index.html">
+<meta property="og:site_name" content="isoldier">
+<meta property="og:description" content="zookeeper 介绍及集群部署1. 环境说明及，准备zookeeper安装包
+安装环境
+
+本次安装环境是Vmware的虚拟机集群,系统版本123456jinmeng@ubuntu:~$ lsb_release -aNo LSB modules are available.Distributor ID:	UbuntuDescription:	Ubuntu 15.10Release:	15.10C">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/97be9d10gw1fb5e73ci42j20sg08vq4t.jpg">
+<meta property="og:updated_time" content="2016-12-27T07:53:07.589Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="zookeeper介绍及集群部署">
+<meta name="twitter:description" content="zookeeper 介绍及集群部署1. 环境说明及，准备zookeeper安装包
+安装环境
+
+本次安装环境是Vmware的虚拟机集群,系统版本123456jinmeng@ubuntu:~$ lsb_release -aNo LSB modules are available.Distributor ID:	UbuntuDescription:	Ubuntu 15.10Release:	15.10C">
+<meta name="twitter:image" content="http://ww1.sinaimg.cn/large/97be9d10gw1fb5e73ci42j20sg08vq4t.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> zookeeper介绍及集群部署 | isoldier </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'isoldier', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">isoldier</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                zookeeper介绍及集群部署
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-12-27T15:43:03+08:00" content="2016-12-27">
+              2016-12-27
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/BigData/" itemprop="url" rel="index">
+                    <span itemprop="name">BigData</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/12/27/zookeeper介绍与安装部署/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/12/27/zookeeper介绍与安装部署/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="zookeeper-介绍及集群部署"><a href="#zookeeper-介绍及集群部署" class="headerlink" title="zookeeper 介绍及集群部署"></a>zookeeper 介绍及集群部署</h2><h3 id="1-环境说明及，准备zookeeper安装包"><a href="#1-环境说明及，准备zookeeper安装包" class="headerlink" title="1. 环境说明及，准备zookeeper安装包"></a>1. 环境说明及，准备zookeeper安装包</h3><ul>
+<li>安装环境</li>
+</ul>
+<p>本次安装环境是Vmware的虚拟机集群,系统版本<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">jinmeng@ubuntu:~$ lsb_release -a</div><div class="line">No LSB modules are available.</div><div class="line">Distributor ID:	Ubuntu</div><div class="line">Description:	Ubuntu 15.10</div><div class="line">Release:	15.10</div><div class="line">Codename:	wily</div></pre></td></tr></table></figure></p>
+<p>三台虚拟机采用NAT网络方式，ip地址分别是<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">192.168.24.110</div><div class="line">192.168.24.111</div><div class="line">192.168.24.112</div></pre></td></tr></table></figure></p>
+<ul>
+<li>zookeeper版本</li>
+</ul>
+<p>本次安装的版本是zookeeper-3.3.6.tar.gz</p>
+<h3 id="2-常用配置参数概念"><a href="#2-常用配置参数概念" class="headerlink" title="2. 常用配置参数概念"></a>2. 常用配置参数概念</h3><ul>
+<li><p>initLimit<br>这个配置项是用来配置 Zookeeper 接受客户端（这里所说的客户端不是用户连接 Zookeeper 服务器的客户端，而是 Zookeeper 服务器集群中连接到 Leader 的 Follower 服务器）初始化连接时最长能忍受多少个心跳时间间隔数。当已经超过 10 个心跳的时间（也就是 tickTime）长度后 Zookeeper 服务器还没有收到客户端的返回信息，那么表明这个客户端连接失败。总的时间长度就是 5*2000=10 秒</p>
+</li>
+<li><p>syncLimit<br>这个配置项标识 Leader 与 Follower 之间发送消息，请求和应答时间长度，最长不能超过多少个 tickTime 的时间长度，总的时间长度就是 2*2000=4 秒</p>
+</li>
+<li><p>server.A=B：C：D<br>其中 A 是一个数字，表示这个是第几号服务器；B 是这个服务器的 ip 地址；C 表示的是这个服务器与集群中的 Leader 服务器交换信息的端口；D 表示的是万一集群中的 Leader 服务器挂了，需要一个端口来重新进行选举，选出一个新的 Leader，而这个端口就是用来执行选举时服务器相互通信的端口。如果是伪集群的配置方式，由于 B 都是一样，所以不同的 Zookeeper 实例通信端口号不能一样，所以要给它们分配不同的端口号。</p>
+</li>
+<li><p>autopurge.snapRetainCount<br>自动清理snapshot 可以设置保留最近的snapshot的份数和清理的时间间隔<br>自动保留的份数参数，默认值是3，最小是3</p>
+</li>
+<li>autopurge.purgeInterval<br>自动清理的时间间隔，默认是0,也就是不自动清理，设置大于等于1的整数就可以启动自动清理</li>
+<li>myid 除了修改 zoo.cfg 配置文件，集群模式下还要配置一个文件 myid，这个文件在 dataDir 目录下，这个文件里面就有一个数据就是 A 的值，注意，必须就是A的值，两者应该保持一致。否则启动不成功。Zookeeper 启动时会读取这个文件，拿到里面的数据与 zoo.cfg 里面的配置信息比较从而判断到底是那个 server。<h3 id="3-zookeeper安装部署"><a href="#3-zookeeper安装部署" class="headerlink" title="3. zookeeper安装部署"></a>3. zookeeper安装部署</h3></li>
+<li>解压，设定zookeeper安装目录</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">cd ~/software</div><div class="line">tar -xvf  zookeeper-3.3.6.tar.gz</div></pre></td></tr></table></figure>
+<ul>
+<li>修改配置文件<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">cd zookeeper-3.3.6/conf/</div><div class="line">cp zoo_sample.cfg zoo.cfg</div><div class="line">vim zoo.cfg</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>修改配置文件为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"># The number of milliseconds of each tick</div><div class="line">tickTime=2000</div><div class="line"># The number of ticks that the initial</div><div class="line"># synchronization phase can take</div><div class="line">initLimit=10</div><div class="line"># The number of ticks that can pass between</div><div class="line"># sending a request and getting an acknowledgement</div><div class="line">syncLimit=5</div><div class="line"># the directory where the snapshot is stored.</div><div class="line">dataDir=/home/jinmeng/software/zookeeper-3.3.6/data</div><div class="line">dataLogDir=/home/jinmeng/software/zookeeper-3.3.6/logs</div><div class="line"># the port at which the clients will connect</div><div class="line">clientPort=2181</div><div class="line">server.1=192.168.24.110:2888:3888  </div><div class="line">server.2=192.168.24.111:2888:3888  </div><div class="line">server.3=192.168.24.112:2888:3888</div></pre></td></tr></table></figure>
+<ul>
+<li><p>创建dataDir 和dataLogDir 目录,与上述配置文件中路径一致</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mkdir -p zookeeper-3.3.6/logs</div><div class="line">mkdir -p zookeeper-3.3.6/data</div></pre></td></tr></table></figure>
+</li>
+<li><p>创建myid文件</p>
+</li>
+</ul>
+<p>分别在三台机器上的data目录中创建myid文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">cd ~/software/zookeeper-3.3.6/data</div><div class="line">echo &quot;1&quot; &gt;myid #192.168.24.110</div><div class="line">#echo &quot;2&quot; &gt;myid #192.168.24.111</div><div class="line">#echo &quot;2&quot; &gt;myid #192.168.24.112</div></pre></td></tr></table></figure></p>
+<h3 id="4-zookeeper启动"><a href="#4-zookeeper启动" class="headerlink" title="4. zookeeper启动"></a>4. zookeeper启动</h3><p>分别进入每台虚拟机的zookeeper-3.3.6的bin 目录,执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sh zkServer.sh start</div></pre></td></tr></table></figure>
+<p>查看角色</p>
+<p>192.168.24.110<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">jinmeng@ubuntu:~/software/zookeeper-3.3.6/bin$ sh zkServer.sh status</div><div class="line">JMX enabled by default</div><div class="line">Using config: /home/jinmeng/software/zookeeper-3.3.6/bin/../conf/zoo.cfg</div><div class="line">Mode: follower</div></pre></td></tr></table></figure></p>
+<p>192.168.24.111<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">jinmeng@ubuntu-slave1:~/software/zookeeper-3.3.6/bin$ sh zkServer.sh status</div><div class="line">JMX enabled by default</div><div class="line">Using config: /home/jinmeng/software/zookeeper-3.3.6/bin/../conf/zoo.cfg</div><div class="line">Mode: leader</div></pre></td></tr></table></figure></p>
+<p>192.168.24.112<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">jinmeng@ubuntu-slave2:~/software/zookeeper-3.3.6/bin$ sh zkServer.sh status</div><div class="line">JMX enabled by default</div><div class="line">Using config: /home/jinmeng/software/zookeeper-3.3.6/bin/../conf/zoo.cfg</div><div class="line">Mode: follower</div></pre></td></tr></table></figure></p>
+<h3 id="备注"><a href="#备注" class="headerlink" title="备注"></a>备注</h3><p>问题描述<br>Ubuntu启动zookeeper时启动不成功， 报错信息显示启动脚本有问题,实际上是shell问题导致的</p>
+<p>解决办法<br>jinmeng@ubuntu:~$ sudo dpkg-reconfigure dash<br>[sudo] password for jinmeng:<br>Package configuration</p>
+<p> <img src="http://ww1.sinaimg.cn/large/97be9d10gw1fb5e73ci42j20sg08vq4t.jpg" alt=""><br>选择no<br>然后启动<br>jinmeng@ubuntu:~/app/zookeeper/zookeeper-3.4.6/bin$ sh zkServer.sh start<br>JMX enabled by default<br>Using config: /home/jinmeng/app/zookeeper/zookeeper-3.4.6/bin/../conf/zoo.cfg<br>Starting zookeeper … STARTED</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/zookeeper/" rel="tag">#zookeeper</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/12/26/jstorm安装部署/" rel="next" title="jstorm环境搭建及入门实例">
+                <i class="fa fa-chevron-left"></i> jstorm环境搭建及入门实例
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/12/27/zookeeper介绍与安装部署/"
+           data-title="zookeeper介绍及集群部署" data-url="http://yoursite.com/2016/12/27/zookeeper介绍与安装部署/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://ww2.sinaimg.cn/large/97be9d10gw1f9st394sd9j20zk0sgwib.jpg"
+               alt="isoldier" />
+          <p class="site-author-name" itemprop="name">isoldier</p>
+          <p class="site-description motion-element" itemprop="description">Stay Hungry. Stay Foolish.</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">18</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/iisoldier" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#zookeeper-介绍及集群部署"><span class="nav-number">1.</span> <span class="nav-text">zookeeper 介绍及集群部署</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-环境说明及，准备zookeeper安装包"><span class="nav-number">1.1.</span> <span class="nav-text">1. 环境说明及，准备zookeeper安装包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-常用配置参数概念"><span class="nav-number">1.2.</span> <span class="nav-text">2. 常用配置参数概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-zookeeper安装部署"><span class="nav-number">1.3.</span> <span class="nav-text">3. zookeeper安装部署</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-zookeeper启动"><span class="nav-number">1.4.</span> <span class="nav-text">4. zookeeper启动</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#备注"><span class="nav-number">1.5.</span> <span class="nav-text">备注</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">isoldier</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"isoldier"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
