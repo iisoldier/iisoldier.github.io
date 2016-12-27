@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2016-12-27T07:53:07.589Z</updated>
+  <updated>2016-12-27T14:49:37.150Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://yoursite.com/2016/12/27/zookeeper%E4%BB%8B%E7%BB%8D%E4%B8%8E%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2/"/>
     <id>http://yoursite.com/2016/12/27/zookeeper介绍与安装部署/</id>
     <published>2016-12-27T07:43:03.000Z</published>
-    <updated>2016-12-27T07:53:07.589Z</updated>
+    <updated>2016-12-27T14:49:37.150Z</updated>
     
     <content type="html"><![CDATA[<h2 id="zookeeper-介绍及集群部署"><a href="#zookeeper-介绍及集群部署" class="headerlink" title="zookeeper 介绍及集群部署"></a>zookeeper 介绍及集群部署</h2><h3 id="1-环境说明及，准备zookeeper安装包"><a href="#1-环境说明及，准备zookeeper安装包" class="headerlink" title="1. 环境说明及，准备zookeeper安装包"></a>1. 环境说明及，准备zookeeper安装包</h3><ul>
 <li>安装环境</li>
@@ -88,7 +88,7 @@
     <link href="http://yoursite.com/2016/12/26/jstorm%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2/"/>
     <id>http://yoursite.com/2016/12/26/jstorm安装部署/</id>
     <published>2016-12-26T07:03:12.000Z</published>
-    <updated>2016-12-27T08:57:52.804Z</updated>
+    <updated>2016-12-27T14:49:37.089Z</updated>
     
     <content type="html"><![CDATA[<h3 id="jstrom-环境搭建及入门实例"><a href="#jstrom-环境搭建及入门实例" class="headerlink" title="jstrom 环境搭建及入门实例"></a>jstrom 环境搭建及入门实例</h3><h3 id="1-安装zookeeper"><a href="#1-安装zookeeper" class="headerlink" title="1. 安装zookeeper"></a>1. 安装zookeeper</h3><p>zookeeper的安装在这里不做介绍，可参考zookeeper安装相关文章，本文采用的单机安装部署</p>
 <h3 id="2-安装Python"><a href="#2-安装Python" class="headerlink" title="2. 安装Python"></a>2. 安装Python</h3><p>一般机器中都自带Python，无需自己手动安装，检查自己的机器中是否有安装，没有则自己安装</p>
@@ -136,7 +136,7 @@ export PATH=$PATH:$JSTORM_HOME/bin
     <link href="http://yoursite.com/2016/12/23/atom%E5%8E%9F%E5%AD%90%E6%80%A7/"/>
     <id>http://yoursite.com/2016/12/23/atom原子性/</id>
     <published>2016-12-23T13:43:12.000Z</published>
-    <updated>2016-12-23T13:39:53.459Z</updated>
+    <updated>2016-12-27T14:49:36.988Z</updated>
     
     <content type="html"><![CDATA[<h2 id="使用atom来实现线程安全"><a href="#使用atom来实现线程安全" class="headerlink" title="使用atom来实现线程安全"></a>使用atom来实现线程安全</h2><h3 id="Atom概念"><a href="#Atom概念" class="headerlink" title="Atom概念"></a>Atom概念</h3><p>原子就是不可再分割的意思，在java中可以使用原子性操作来保证操作的唯一性从而保证线程安全,</p>
 <h3 id="直接上使用demo"><a href="#直接上使用demo" class="headerlink" title="直接上使用demo"></a>直接上使用demo</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.isoldier.concurrent.atom;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.util.ArrayList;</div><div class="line"><span class="keyword">import</span> java.util.List;</div><div class="line"><span class="keyword">import</span> java.util.concurrent.atomic.AtomicInteger;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * 原子操作，保证线程安全的实例</div><div class="line"> *</div><div class="line"> * <span class="doctag">@author</span> isoldier</div><div class="line"> *</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AtomDemo</span> </span>&#123;</div><div class="line"></div><div class="line">	<span class="keyword">private</span> AtomicInteger atomicI = <span class="keyword">new</span> AtomicInteger(<span class="number">0</span>);</div><div class="line">	<span class="keyword">private</span> <span class="keyword">int</span> i = <span class="number">0</span>;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		<span class="keyword">final</span> AtomDemo cas = <span class="keyword">new</span> AtomDemo();</div><div class="line">		List&lt;Thread&gt; ts = <span class="keyword">new</span> ArrayList&lt;Thread&gt;(<span class="number">600</span>);</div><div class="line">		<span class="keyword">long</span> start = System.currentTimeMillis();</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; <span class="number">100</span>; j++) &#123;</div><div class="line">			Thread t = <span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</div><div class="line">				<span class="meta">@Override</span></div><div class="line">				<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">					<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10000</span>; i++) &#123;</div><div class="line">						cas.count();</div><div class="line">						cas.safeCount();</div><div class="line">					&#125;</div><div class="line">				&#125;</div><div class="line">			&#125;);</div><div class="line">			ts.add(t);</div><div class="line">		&#125;</div><div class="line"></div><div class="line">		<span class="keyword">for</span> (Thread t : ts) &#123;</div><div class="line">			t.start();</div><div class="line">		&#125;</div><div class="line"></div><div class="line">		<span class="comment">// 等待所有线程执行完成</span></div><div class="line">		<span class="keyword">for</span> (Thread t : ts) &#123;</div><div class="line">			<span class="keyword">try</span> &#123;</div><div class="line">				t.join();</div><div class="line">			&#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</div><div class="line">				e.printStackTrace();</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line"></div><div class="line">		System.out.println(cas.i);</div><div class="line">		System.out.println(cas.atomicI.get());</div><div class="line">		System.out.println(System.currentTimeMillis() - start);</div><div class="line"></div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="comment">/**</span></div><div class="line">	 * 使用CAS实现线程安全计数器</div><div class="line">	 */</div><div class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">safeCount</span><span class="params">()</span> </span>&#123;</div><div class="line">		<span class="keyword">for</span> (;;) &#123;</div><div class="line">			<span class="keyword">int</span> i = atomicI.get();</div><div class="line">			<span class="keyword">boolean</span> suc = atomicI.compareAndSet(i, ++i);</div><div class="line">			<span class="keyword">if</span> (suc) &#123;</div><div class="line">				<span class="keyword">break</span>;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="comment">/**</span></div><div class="line">	 * 非线程安全计数器</div><div class="line">	 */</div><div class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">count</span><span class="params">()</span> </span>&#123;</div><div class="line">		i++;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
@@ -162,7 +162,7 @@ export PATH=$PATH:$JSTORM_HOME/bin
     <link href="http://yoursite.com/2016/12/23/%E4%B8%80%E8%87%B4%E6%80%A7hash%E7%AE%97%E6%B3%95/"/>
     <id>http://yoursite.com/2016/12/23/一致性hash算法/</id>
     <published>2016-12-23T13:10:12.000Z</published>
-    <updated>2016-12-23T13:15:03.053Z</updated>
+    <updated>2016-12-27T14:49:37.176Z</updated>
     
     <content type="html"><![CDATA[<h2 id="一致性hash算法"><a href="#一致性hash算法" class="headerlink" title="一致性hash算法"></a>一致性hash算法</h2><h3 id="0-背景"><a href="#0-背景" class="headerlink" title="0. 背景"></a>0. 背景</h3><p>最近在看一本书大型网站的架构，在看到分布式缓存的章节是提到了一致性hash问题来实现分布式缓存服务，这个概念在之前也听过但是没有去怎么理解，，正好趁此机会看一下</p>
 <h3 id="1-概念介绍"><a href="#1-概念介绍" class="headerlink" title="1. 概念介绍"></a>1. 概念介绍</h3><ul>
@@ -199,7 +199,7 @@ export PATH=$PATH:$JSTORM_HOME/bin
     <link href="http://yoursite.com/2016/12/23/java%E8%AF%BB%E5%8F%96%E6%96%87%E4%BB%B6%E7%9A%84%E6%96%B9%E5%BC%8F/"/>
     <id>http://yoursite.com/2016/12/23/java读取文件的方式/</id>
     <published>2016-12-23T12:43:12.000Z</published>
-    <updated>2016-12-23T13:00:00.688Z</updated>
+    <updated>2016-12-27T14:49:37.058Z</updated>
     
     <content type="html"><![CDATA[<h2 id="Java如何读取文件"><a href="#Java如何读取文件" class="headerlink" title="Java如何读取文件"></a>Java如何读取文件</h2><h3 id="0-背景"><a href="#0-背景" class="headerlink" title="0. 背景"></a>0. 背景</h3><p>今天在打算运行jstorm中wordcount的例子，需要读取一个文本，这个时候遇到了一个小问题在此记录一下就是如何读取文件的路径。</p>
 <h3 id="1-两种方式"><a href="#1-两种方式" class="headerlink" title="1. 两种方式"></a>1. 两种方式</h3><ul>
@@ -236,7 +236,7 @@ export PATH=$PATH:$JSTORM_HOME/bin
     <link href="http://yoursite.com/2016/12/23/ConcurrentHashMap%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/"/>
     <id>http://yoursite.com/2016/12/23/ConcurrentHashMap简单使用/</id>
     <published>2016-12-22T16:58:10.000Z</published>
-    <updated>2016-12-22T17:01:14.085Z</updated>
+    <updated>2016-12-27T14:49:37.007Z</updated>
     
     <content type="html"><![CDATA[<h2 id="ConcurrentHashMap简单使用"><a href="#ConcurrentHashMap简单使用" class="headerlink" title="ConcurrentHashMap简单使用"></a>ConcurrentHashMap简单使用</h2><h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><h4 id="线程不安全的HashMap"><a href="#线程不安全的HashMap" class="headerlink" title="线程不安全的HashMap"></a>线程不安全的HashMap</h4><p>因为多线程环境下，使用HashMap进行put操作会引起死循环，导致CPU利用率接近100%，所以在并发情况下不能使用HashMap，如以下代码<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">final</span> HashMap&lt;String, String&gt; map = <span class="keyword">new</span> HashMap&lt;String, String&gt;(<span class="number">2</span>);</div><div class="line">Thread t = <span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10000</span>; i++) &#123;</div><div class="line">            <span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</div><div class="line">                <span class="meta">@Override</span></div><div class="line">                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">                    map.put(UUID.randomUUID().toString(), <span class="string">""</span>);</div><div class="line">                &#125;</div><div class="line">            &#125;, <span class="string">"ftf"</span> + i).start();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;, <span class="string">"ftf"</span>);</div><div class="line">t.start();</div><div class="line">t.join();</div></pre></td></tr></table></figure></p>
 <h4 id="效率低下的HashTable容器"><a href="#效率低下的HashTable容器" class="headerlink" title="效率低下的HashTable容器"></a>效率低下的HashTable容器</h4><p>HashTable容器使用synchronized来保证线程安全，但在线程竞争激烈的情况下HashTable的效率非常低下。因为当一个线程访问HashTable的同步方法时，其他线程访问HashTable的同步方法时，可能会进入阻塞或轮询状态。如线程1使用put进行添加元素，线程2不但不能使用put方法添加元素，并且也不能使用get方法来获取元素，所以竞争越激烈效率越低。</p>
@@ -263,7 +263,7 @@ export PATH=$PATH:$JSTORM_HOME/bin
     <link href="http://yoursite.com/2016/12/23/BlockingQueue%E4%BD%BF%E7%94%A8/"/>
     <id>http://yoursite.com/2016/12/23/BlockingQueue使用/</id>
     <published>2016-12-22T16:43:03.000Z</published>
-    <updated>2016-12-22T16:59:03.004Z</updated>
+    <updated>2016-12-27T14:49:37.000Z</updated>
     
     <content type="html"><![CDATA[<h2 id="BlockingQueue的使用"><a href="#BlockingQueue的使用" class="headerlink" title="BlockingQueue的使用"></a>BlockingQueue的使用</h2><h3 id="基础概念"><a href="#基础概念" class="headerlink" title="基础概念"></a>基础概念</h3><p>阻塞队列（BlockingQueue）是一个支持两个附加操作的队列。这两个附加的操作是：在队列为空时，获取元素的线程会等待队列变为非空。当队列满时，存储元素的线程会等待队列可用。阻塞队列常用于生产者和消费者的场景，生产者是往队列里添加元素的线程，消费者是从队列里拿元素的线程。阻塞队列就是生产者存放元素的容器，而消费者也只从容器里拿元素。</p>
 <p>四种处理方法汇总</p>
@@ -343,7 +343,7 @@ export PATH=$PATH:$JSTORM_HOME/bin
     <link href="http://yoursite.com/2016/12/22/java%E5%BC%82%E5%B8%B8%E4%BD%BF%E7%94%A8%E8%AF%AF%E5%8C%BA/"/>
     <id>http://yoursite.com/2016/12/22/java异常使用误区/</id>
     <published>2016-12-22T14:43:03.000Z</published>
-    <updated>2016-12-22T17:02:22.051Z</updated>
+    <updated>2016-12-27T14:49:37.078Z</updated>
     
     <content type="html"><![CDATA[<h2 id="0-背景介绍"><a href="#0-背景介绍" class="headerlink" title="0. 背景介绍"></a>0. 背景介绍</h2><p>异常处理是代码中必不可少的处理部分，如何正确的处理异常时非常关键的，为了以后代码中异常处理的规范性，搜罗了一些异常使用的建议，供以后使用</p>
 <h2 id="1-异常分类"><a href="#1-异常分类" class="headerlink" title="1.异常分类"></a>1.异常分类</h2><p>大体上可以将异常分为两类</p>
@@ -377,7 +377,7 @@ export PATH=$PATH:$JSTORM_HOME/bin
     <link href="http://yoursite.com/2016/12/21/Guava%E4%BD%BF%E7%94%A8%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8-cache(2)/"/>
     <id>http://yoursite.com/2016/12/21/Guava使用基础入门-cache(2)/</id>
     <published>2016-12-21T13:58:10.000Z</published>
-    <updated>2016-12-24T14:33:25.044Z</updated>
+    <updated>2016-12-27T14:49:37.033Z</updated>
     
     <content type="html"><![CDATA[<h3 id="0-背景"><a href="#0-背景" class="headerlink" title="0. 背景"></a>0. 背景</h3><p>昨天晚上思考的guava cache做性能优化的问题，今天就简单进行试验了一下，记录一下，以后在具体问题具体分析做进一步的优化，</p>
 <h3 id="1-使用demo介绍"><a href="#1-使用demo介绍" class="headerlink" title="1. 使用demo介绍"></a>1. 使用demo介绍</h3><p>以限制IP访问为例，比如限制某个IP的访问次数或者。某个IP在5秒钟只能访问一次<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.isoldier.guava.cache;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.util.concurrent.ExecutionException;</div><div class="line"><span class="keyword">import</span> java.util.concurrent.TimeUnit;</div><div class="line"></div><div class="line"><span class="keyword">import</span> com.google.common.cache.CacheBuilder;</div><div class="line"><span class="keyword">import</span> com.google.common.cache.CacheLoader;</div><div class="line"><span class="keyword">import</span> com.google.common.cache.LoadingCache;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * 访问次数限制，限制多长时间访问一次</div><div class="line"> * <span class="doctag">@author</span> isoldier</div><div class="line"> *</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CacheManual</span> </span>&#123;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span> </span>&#123;</div><div class="line"></div><div class="line">		LoadingCache&lt;String, Boolean&gt; isCached = CacheBuilder.newBuilder()</div><div class="line">				.maximumSize(<span class="number">100</span>).expireAfterAccess(<span class="number">5</span>, TimeUnit.SECONDS)</div><div class="line">				.build(<span class="keyword">new</span> CacheLoader&lt;String, Boolean&gt;() &#123;</div><div class="line">					<span class="meta">@Override</span></div><div class="line">					<span class="function"><span class="keyword">public</span> Boolean <span class="title">load</span><span class="params">(String IP)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">						<span class="comment">// make the expensive call</span></div><div class="line">						System.out.println(<span class="string">"make the expensive call "</span>);</div><div class="line"></div><div class="line">						<span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">					&#125;</div><div class="line">				&#125;);</div><div class="line">		<span class="keyword">try</span> &#123;</div><div class="line">			<span class="comment">// on first invocation, cache will be populated with corresponding</span></div><div class="line">			<span class="comment">// employee record</span></div><div class="line">			String ip = <span class="string">"192.168.24.110"</span>;</div><div class="line">			System.out.println(<span class="string">"Invocation #1"</span>);</div><div class="line">			System.out.println(isCached.get(ip));</div><div class="line">			<span class="keyword">if</span> (!isCached.get(ip)) &#123;</div><div class="line">				isCached.put(ip, <span class="keyword">true</span>);</div><div class="line">			&#125;</div><div class="line"></div><div class="line">			Thread.sleep(<span class="number">6</span>*<span class="number">1000</span>);</div><div class="line">			<span class="comment">//</span></div><div class="line">			System.out.println(<span class="string">"Invocation #2"</span>);</div><div class="line">			System.out.println(isCached.get(ip));</div><div class="line"></div><div class="line"></div><div class="line">			<span class="keyword">if</span>(isCached.get(ip))&#123;</div><div class="line">				System.out.println(<span class="string">"访问次数超限 "</span>);</div><div class="line">			&#125;<span class="keyword">else</span>&#123;</div><div class="line">				System.out.println(<span class="string">"访问正常"</span>);</div><div class="line">			&#125;</div><div class="line"></div><div class="line">		&#125; <span class="keyword">catch</span> (ExecutionException e) &#123;</div><div class="line">			e.printStackTrace();</div><div class="line">		&#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</div><div class="line">			<span class="comment">// TODO Auto-generated catch block</span></div><div class="line">			e.printStackTrace();</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
@@ -407,7 +407,7 @@ export PATH=$PATH:$JSTORM_HOME/bin
     <link href="http://yoursite.com/2016/12/21/guava%E4%BD%BF%E7%94%A8%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8-cache/"/>
     <id>http://yoursite.com/2016/12/21/guava使用基础入门-cache/</id>
     <published>2016-12-21T13:58:10.000Z</published>
-    <updated>2016-12-24T14:37:11.309Z</updated>
+    <updated>2016-12-27T14:49:37.036Z</updated>
     
     <content type="html"><![CDATA[<h2 id="Guava使用基础入门-cache"><a href="#Guava使用基础入门-cache" class="headerlink" title="Guava使用基础入门-cache"></a>Guava使用基础入门-cache</h2><h3 id="0-使用说明"><a href="#0-使用说明" class="headerlink" title="0. 使用说明"></a>0. 使用说明</h3><p>guava是Google的一个底层的库，里面包含了许多非常基础的应用，在很多Google的项目中都用到这个库，在平时项目的开发中，如果能善用这些方法，会使得我们的代码更加规范和健壮。</p>
 <h3 id="1-Guava-Cache"><a href="#1-Guava-Cache" class="headerlink" title="1. Guava Cache"></a>1. Guava Cache</h3><p>通常来说，Guava Cache适用于：</p>
@@ -443,7 +443,7 @@ export PATH=$PATH:$JSTORM_HOME/bin
     <link href="http://yoursite.com/2016/12/16/maven%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/"/>
     <id>http://yoursite.com/2016/12/16/maven常用操作/</id>
     <published>2016-12-16T14:43:03.000Z</published>
-    <updated>2016-12-16T13:40:48.654Z</updated>
+    <updated>2016-12-27T14:49:37.096Z</updated>
     
     <content type="html"><![CDATA[<h2 id="1-创建maven项目"><a href="#1-创建maven项目" class="headerlink" title="1. 创建maven项目"></a>1. 创建maven项目</h2><p>普通项目<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mvn archetype:generate -DgroupId=com.ect -DartifactId=log4jDemo -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false -DarchetypeCatalog=internal</div></pre></td></tr></table></figure></p>
 <p>web项目<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mvn archetype:generate -DgroupId=com.ect -DartifactId=edhConsumer -DarchetypeArtifactId=maven-archetype-webapp -DinteractiveMode=false -DarchetypeCatalog=internal</div></pre></td></tr></table></figure></p>
@@ -471,7 +471,7 @@ export PATH=$PATH:$JSTORM_HOME/bin
     <link href="http://yoursite.com/2016/12/16/ExecutorService%E7%9A%84%E4%BD%BF%E7%94%A8/"/>
     <id>http://yoursite.com/2016/12/16/ExecutorService的使用/</id>
     <published>2016-12-16T03:43:03.000Z</published>
-    <updated>2016-12-16T13:48:13.590Z</updated>
+    <updated>2016-12-27T14:49:37.022Z</updated>
     
     <content type="html"><![CDATA[<h1 id="ExecutorService的使用"><a href="#ExecutorService的使用" class="headerlink" title="ExecutorService的使用"></a>ExecutorService的使用</h1><h3 id="1-创建ExecutorService的方式"><a href="#1-创建ExecutorService的方式" class="headerlink" title="1. 创建ExecutorService的方式"></a>1. 创建ExecutorService的方式</h3><p>创建ExecutorService的方式有好几种采用哪种方式创建应该依赖于具体的情况，我们也可以通过工厂模式创建ExecutorService，下面是三种常见的创建ExecutorService的方式</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">ExecutorService executorService1 = Executors.newSingleThreadExecutor();</div><div class="line"></div><div class="line">ExecutorService executorService2 = Executors.newFixedThreadPool(<span class="number">10</span>);</div><div class="line"></div><div class="line">ExecutorService executorService3 = Executors.newScheduledThreadPool(<span class="number">10</span>);</div></pre></td></tr></table></figure>
@@ -503,7 +503,7 @@ export PATH=$PATH:$JSTORM_HOME/bin
     <link href="http://yoursite.com/2016/12/14/MySQL%E6%9F%A5%E8%AF%A2%E8%AF%AD%E5%8F%A5%E6%89%A7%E8%A1%8C%E9%A1%BA%E5%BA%8F%E5%8F%8A%E4%BC%98%E5%8C%96%E5%AE%9E%E4%BE%8B/"/>
     <id>http://yoursite.com/2016/12/14/MySQL查询语句执行顺序及优化实例/</id>
     <published>2016-12-14T14:43:03.000Z</published>
-    <updated>2016-12-24T14:27:16.256Z</updated>
+    <updated>2016-12-27T14:49:37.113Z</updated>
     
     <content type="html"><![CDATA[<h2 id="1-mysql查询的基本查询顺序"><a href="#1-mysql查询的基本查询顺序" class="headerlink" title="1. mysql查询的基本查询顺序"></a>1. mysql查询的基本查询顺序</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">(8) <span class="keyword">SELECT</span> (<span class="number">9</span>)</div><div class="line"><span class="keyword">DISTINCT</span> &lt;select_list&gt;</div><div class="line">(<span class="number">1</span>) <span class="keyword">FROM</span> &lt;left_table&gt;</div><div class="line">(<span class="number">3</span>) &lt;<span class="keyword">join</span> <span class="keyword">type</span>&gt; <span class="keyword">JOIN</span> &lt;right_table&gt;</div><div class="line">(<span class="number">2</span>) <span class="keyword">ON</span> &lt;join_condition&gt;</div><div class="line">(<span class="number">4</span>) <span class="keyword">WHERE</span> &lt;where_condition&gt;</div><div class="line">(<span class="number">5</span>) <span class="keyword">GROUP</span> <span class="keyword">BY</span> &lt;group_by_list&gt;</div><div class="line">(<span class="number">6</span>) <span class="keyword">WITH</span> &#123;<span class="keyword">CUBE</span> | <span class="keyword">ROLLUP</span>&#125;</div><div class="line">(<span class="number">7</span>) <span class="keyword">HAVING</span> &lt;having_condition&gt;</div><div class="line">(<span class="number">10</span>) <span class="keyword">ORDER</span> <span class="keyword">BY</span> &lt;order_by_list&gt;</div><div class="line">(<span class="number">11</span>) <span class="keyword">LIMIT</span> &lt;limit_number&gt;</div></pre></td></tr></table></figure>
 <h2 id="2-例子"><a href="#2-例子" class="headerlink" title="2. 例子"></a>2. 例子</h2><p>例子是从网上找的，以便自己更好的理解</p>
@@ -556,7 +556,7 @@ export PATH=$PATH:$JSTORM_HOME/bin
     <link href="http://yoursite.com/2016/12/14/MySQL%E5%8D%95%E8%A1%A8%E7%99%BE%E4%B8%87%E6%95%B0%E6%8D%AE%E8%AE%B0%E5%BD%95%E5%88%86%E9%A1%B5%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/"/>
     <id>http://yoursite.com/2016/12/14/MySQL单表百万数据记录分页性能优化/</id>
     <published>2016-12-14T12:43:03.000Z</published>
-    <updated>2016-12-24T14:27:10.168Z</updated>
+    <updated>2016-12-27T14:49:37.122Z</updated>
     
     <content type="html"><![CDATA[<h2 id="优化简单实例"><a href="#优化简单实例" class="headerlink" title="优化简单实例"></a>优化简单实例</h2><h3 id="在微信上看到的文章，简单记录了一下，以后可能会有所帮助。"><a href="#在微信上看到的文章，简单记录了一下，以后可能会有所帮助。" class="headerlink" title="在微信上看到的文章，简单记录了一下，以后可能会有所帮助。"></a>在微信上看到的文章，简单记录了一下，以后可能会有所帮助。</h3><h3 id="0-背景"><a href="#0-背景" class="headerlink" title="0. 背景"></a>0. 背景</h3><p>由于单表的数据记录高达了一百万条，造成数据访问很慢，Google分析的后台经常报告超时，尤其是页码大的页面更是慢的不行。</p>
 <h3 id="1-测试表基本信息"><a href="#1-测试表基本信息" class="headerlink" title="1. 测试表基本信息"></a>1. 测试表基本信息</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">use</span> infomation_schema</div><div class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> <span class="keyword">TABLES</span> <span class="keyword">WHERE</span> TABLE_SCHEMA = ‘dbname’ <span class="keyword">AND</span> TABLE_NAME = ‘product’</div></pre></td></tr></table></figure>
@@ -605,7 +605,7 @@ export PATH=$PATH:$JSTORM_HOME/bin
     <link href="http://yoursite.com/2016/11/25/iptables%E5%9F%BA%E7%A1%80/"/>
     <id>http://yoursite.com/2016/11/25/iptables基础/</id>
     <published>2016-11-25T15:06:19.000Z</published>
-    <updated>2016-12-16T13:49:52.724Z</updated>
+    <updated>2016-12-27T14:49:37.049Z</updated>
     
     <content type="html"><![CDATA[<h2 id="iptables"><a href="#iptables" class="headerlink" title="iptables"></a>iptables</h2><h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><p>iptables是Linux内核默认的防火墙。防火墙，其实说白了讲，就是用于实现Linux下访问控制的功能的，它分为硬件的或者软件的防火墙两种。无论是在哪个网络中，防火墙工作的地方一定是在网络的边缘。而我们的任务就是需要去定义到底防火墙如何工作，这就是防火墙的策略，规则，以达到让它对出入网络的IP、数据进行检测。</p>
 <p>对于TCP/IP的七层模型来讲，我们知道第三层是网络层，三层的防火墙会在这层对源地址和目标地址进行检测。</p>
@@ -658,7 +658,7 @@ export PATH=$PATH:$JSTORM_HOME/bin
     <link href="http://yoursite.com/2016/11/19/dubbo%E4%B9%8BaddShutdownHook/"/>
     <id>http://yoursite.com/2016/11/19/dubbo之addShutdownHook/</id>
     <published>2016-11-19T13:46:17.000Z</published>
-    <updated>2016-12-14T15:53:02.300Z</updated>
+    <updated>2016-12-27T14:49:37.011Z</updated>
     
     <content type="html"><![CDATA[<h2 id="addShutdownHook-简单介绍"><a href="#addShutdownHook-简单介绍" class="headerlink" title="addShutdownHook 简单介绍"></a>addShutdownHook 简单介绍</h2><p>java.lang.Runtime.addShutdownHook(Thread hook) 方法注册一个新的虚拟机关闭挂钩。</p>
 <p>该方法用来在jvm中增加一个关闭的钩子。当程序正常退出或者系统调用System.exit方法或虚拟机被关闭时就会执行添加的shutdownHook线程。<br>其中shutdownHook是一个已初始化但并不有启动的线程，当jvm关闭的时候，会执行系统中已经设置的所有通过方法addShutdownHook添加的钩子，当系统执行完这些钩子后，jvm才会关闭。所以可通过这些钩子在jvm关闭的时候进行内存清理、资源回收等工作</p>
@@ -683,7 +683,7 @@ export PATH=$PATH:$JSTORM_HOME/bin
     <link href="http://yoursite.com/2016/07/08/Vmware%E6%90%AD%E5%BB%BA%E9%9B%86%E7%BE%A4(%E5%9F%BA%E7%A1%80%E7%8E%AF%E5%A2%83)/"/>
     <id>http://yoursite.com/2016/07/08/Vmware搭建集群(基础环境)/</id>
     <published>2016-07-07T16:43:03.000Z</published>
-    <updated>2016-12-16T13:54:32.448Z</updated>
+    <updated>2016-12-27T14:49:37.136Z</updated>
     
     <content type="html"><![CDATA[<h2 id="Vmware搭建集群（基础环境）"><a href="#Vmware搭建集群（基础环境）" class="headerlink" title="Vmware搭建集群（基础环境）"></a>Vmware搭建集群（基础环境）</h2><h3 id="1-单台机器配置"><a href="#1-单台机器配置" class="headerlink" title="1. 单台机器配置"></a>1. 单台机器配置</h3><h4 id="安装Vmware-tools"><a href="#安装Vmware-tools" class="headerlink" title="安装Vmware tools"></a>安装Vmware tools</h4><p>正常步骤安装虚拟机，以Ubuntu15.10为例，安装好之后会发现平面分辨率不够，并不能充满整个屏幕，安装VMware tools 安装好之后重启可以发现Ubuntu系统充满整个屏幕。</p>
 <p>解压tools安装包文件夹<br>安装命令</p>
@@ -756,7 +756,7 @@ export PATH=$PATH:$JSTORM_HOME/bin
     <link href="http://yoursite.com/2016/05/19/I-love-you/"/>
     <id>http://yoursite.com/2016/05/19/I-love-you/</id>
     <published>2016-05-18T16:43:03.000Z</published>
-    <updated>2016-11-15T13:18:19.861Z</updated>
+    <updated>2016-12-27T14:49:37.042Z</updated>
     
     <content type="html"><![CDATA[<h2 id="芝麻的文章"><a href="#芝麻的文章" class="headerlink" title="芝麻的文章"></a>芝麻的文章</h2><p>想和你一起坐火车去远行，<br>看着窗外陌生的风景慢悠悠的过，<br>还会有阳光斜斜的洒在你发间，<br>映着侧脸。</p>
 <p>想和你并肩散步在昏黄的路灯下，<br>看着影子被灯光拉扯的佝偻又挺拔，<br>好像几步已一生，<br>光阴蔓延。</p>
