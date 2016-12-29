@@ -1,0 +1,886 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="jstorm," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="jstrom 环境搭建及入门实例1. 安装zookeeperzookeeper的安装在这里不做介绍，可参考zookeeper安装相关文章，本文采用的单机安装部署
+2. 安装Python一般机器中都自带Python，无需自己手动安装，检查自己的机器中是否有安装，没有则自己安装
+3. 安装jdk基本功，在此不做介绍
+4. 安装jstorm以jstorm-2.1.1.zip为例,配置环境变量
+unzip">
+<meta property="og:type" content="article">
+<meta property="og:title" content="jstorm环境搭建及入门实例">
+<meta property="og:url" content="http://yoursite.com/2016/12/26/jstorm安装部署/index.html">
+<meta property="og:site_name" content="isoldier">
+<meta property="og:description" content="jstrom 环境搭建及入门实例1. 安装zookeeperzookeeper的安装在这里不做介绍，可参考zookeeper安装相关文章，本文采用的单机安装部署
+2. 安装Python一般机器中都自带Python，无需自己手动安装，检查自己的机器中是否有安装，没有则自己安装
+3. 安装jdk基本功，在此不做介绍
+4. 安装jstorm以jstorm-2.1.1.zip为例,配置环境变量
+unzip">
+<meta property="og:updated_time" content="2016-12-27T14:49:37.089Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="jstorm环境搭建及入门实例">
+<meta name="twitter:description" content="jstrom 环境搭建及入门实例1. 安装zookeeperzookeeper的安装在这里不做介绍，可参考zookeeper安装相关文章，本文采用的单机安装部署
+2. 安装Python一般机器中都自带Python，无需自己手动安装，检查自己的机器中是否有安装，没有则自己安装
+3. 安装jdk基本功，在此不做介绍
+4. 安装jstorm以jstorm-2.1.1.zip为例,配置环境变量
+unzip">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> jstorm环境搭建及入门实例 | isoldier </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">isoldier</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                jstorm环境搭建及入门实例
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-12-26T15:03:12+08:00" content="2016-12-26">
+              2016-12-26
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/jstorm/" itemprop="url" rel="index">
+                    <span itemprop="name">jstorm</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/12/26/jstorm安装部署/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/12/26/jstorm安装部署/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/12/26/jstorm安装部署/" class="leancloud_visitors" data-flag-title="jstorm环境搭建及入门实例">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+
+          
+          &nbsp; | &nbsp;
+          <span id="/2016/12/26/jstorm安装部署/"class="leancloud_visitors" data-flag-title="jstorm环境搭建及入门实例">
+                   &nbsp;阅读次数
+                  </span>
+          
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="jstrom-环境搭建及入门实例"><a href="#jstrom-环境搭建及入门实例" class="headerlink" title="jstrom 环境搭建及入门实例"></a>jstrom 环境搭建及入门实例</h3><h3 id="1-安装zookeeper"><a href="#1-安装zookeeper" class="headerlink" title="1. 安装zookeeper"></a>1. 安装zookeeper</h3><p>zookeeper的安装在这里不做介绍，可参考zookeeper安装相关文章，本文采用的单机安装部署</p>
+<h3 id="2-安装Python"><a href="#2-安装Python" class="headerlink" title="2. 安装Python"></a>2. 安装Python</h3><p>一般机器中都自带Python，无需自己手动安装，检查自己的机器中是否有安装，没有则自己安装</p>
+<h3 id="3-安装jdk"><a href="#3-安装jdk" class="headerlink" title="3. 安装jdk"></a>3. 安装jdk</h3><p>基本功，在此不做介绍</p>
+<h3 id="4-安装jstorm"><a href="#4-安装jstorm" class="headerlink" title="4. 安装jstorm"></a>4. 安装jstorm</h3><p>以jstorm-2.1.1.zip为例,配置环境变量</p>
+<pre><code>unzip jstorm-2.1.1.zip
+vi ~/.bashrc
+export JSTORM_HOME=/XXXXX/XXXX
+export PATH=$PATH:$JSTORM_HOME/bin
+</code></pre><p>配置$JSTORM_HOME/conf/storm.yaml</p>
+<p>配置项：</p>
+<ul>
+<li>storm.zookeeper.servers: 表示zookeeper 的地址，</li>
+<li>nimbus.host: 表示nimbus的地址</li>
+<li>storm.zookeeper.root: 表示JStorm在zookeeper中的根目录，当多个JStorm共享一个zookeeper时，需要设置该选项，默认即为“/jstorm”</li>
+<li>storm.local.dir: 表示JStorm临时数据存放目录，需要保证JStorm程序对该目录有写权限</li>
+<li>java.library.path: Zeromq 和java zeromq library的安装目录，默认”/usr/local/lib:/opt/local/lib:/usr/lib”</li>
+<li>supervisor.slots.ports: 表示Supervisor 提供的端口Slot列表，注意不要和其他端口发生冲突，默认是68xx，而Storm的是67xx</li>
+<li>topology.enable.classloader: false, 默认关闭classloader，如果应用的jar与JStorm的依赖的jar发生冲突，比如应用使用thrift9，但jstorm使用thrift7时，就需要打开classloader。建议在集群级别上默认关闭，在具体需要隔离的topology上打开这个选项。</li>
+</ul>
+<p>放上一个自己配置配置文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div></pre></td><td class="code"><pre><div class="line">########### These MUST be filled in for a storm configuration</div><div class="line"> storm.zookeeper.servers:</div><div class="line">     - &quot;192.168.24.128&quot;</div><div class="line"> storm.zookeeper.ports: 2181</div><div class="line"> storm.zookeeper.root: &quot;/jstorm&quot;</div><div class="line"></div><div class="line"> cluster.name: &quot;vm-jstorm&quot;</div><div class="line"></div><div class="line">#nimbus.host/nimbus.host.start.supervisor is being used by $JSTORM_HOME/bin/start.sh</div><div class="line">#it only support IP, please don&apos;t set hostname</div><div class="line"># For example</div><div class="line"># nimbus.host: &quot;10.132.168.10, 10.132.168.45&quot;</div><div class="line"> nimbus.host: &quot;192.168.24.128&quot;</div><div class="line">#nimbus.host.start.supervisor: false</div><div class="line"></div><div class="line"># %JSTORM_HOME% is the jstorm home directory</div><div class="line"> storm.local.dir: &quot;%JSTORM_HOME%/data&quot;</div><div class="line"># storm.local.dir: &quot;/home/jinmeng/app/jstorm-2.1.1/data&quot;</div><div class="line"># please set absolute path, default path is JSTORM_HOME/logs</div><div class="line"># jstorm.log.dir: &quot;/home/jinmeng/app/jstorm-2.1.1/logs&quot;</div><div class="line"> jstorm.log.dir: &quot;%JSTORM_HOME%/app/logs&quot;</div><div class="line"># java.library.path: &quot;/usr/local/lib:/opt/local/lib:/usr/lib&quot;</div><div class="line"></div><div class="line"></div><div class="line"># if supervisor.slots.ports is null,</div><div class="line"># the port list will be generated by cpu cores and system memory size</div><div class="line"># for example,</div><div class="line"># there are cpu_num = system_physical_cpu_num/supervisor.slots.port.cpu.weight</div><div class="line"># there are mem_num = system_physical_memory_size/(worker.memory.size * supervisor.slots.port.mem.weight)</div><div class="line"># The final port number is min(cpu_num, mem_num)</div><div class="line"># supervisor.slots.ports.base: 6800</div><div class="line"># supervisor.slots.port.cpu.weight: 1.2</div><div class="line"># supervisor.slots.port.mem.weight: 0.7</div><div class="line"># supervisor.slots.ports: null</div><div class="line"> supervisor.slots.ports:</div><div class="line">     - 6800</div><div class="line">     - 6801</div><div class="line">     - 6802</div><div class="line">     - 6803</div><div class="line"></div><div class="line"># Default disable user-define classloader</div><div class="line"># If there are jar conflict between jstorm and application,</div><div class="line"># please enable it</div><div class="line"># topology.enable.classloader: false</div><div class="line"></div><div class="line"># enable supervisor use cgroup to make resource isolation</div><div class="line"># Before enable it, you should make sure:</div><div class="line">#       1. Linux version (&gt;= 2.6.18)</div><div class="line">#       2. Have installed cgroup (check the file&apos;s existence:/proc/cgroups)</div><div class="line">#       3. You should start your supervisor on root</div><div class="line"># You can get more about cgroup:</div><div class="line">#   http://t.cn/8s7nexU</div><div class="line"># supervisor.enable.cgroup: false</div><div class="line"></div><div class="line"></div><div class="line">### Netty will send multiple messages in one batch  </div><div class="line">### Setting true will improve throughput, but more latency</div><div class="line"># storm.messaging.netty.transfer.async.batch: true</div><div class="line"></div><div class="line">### if this setting  is true, it will use disruptor as internal queue, which size is limited</div><div class="line">### otherwise, it will use LinkedBlockingDeque as internal queue , which size is unlimited</div><div class="line">### generally when this setting is true, the topology will be more stable,</div><div class="line">### but when there is a data loop flow, for example A -&gt; B -&gt; C -&gt; A</div><div class="line">### and the data flow occur blocking, please set this as false</div><div class="line"># topology.buffer.size.limited: true</div><div class="line"></div><div class="line">### default worker memory size, unit is byte default 2G</div><div class="line">#  worker.memory.size: 2147483648</div><div class="line"> worker.memory.size: 536870912</div><div class="line"></div><div class="line"># Metrics Monitor</div><div class="line"># topology.performance.metrics: it is the switch flag for performance</div><div class="line"># purpose. When it is disabled, the data of timer and histogram metrics</div><div class="line"># will not be collected.</div><div class="line"># topology.alimonitor.metrics.post: If it is disable, metrics data</div><div class="line"># will only be printed to log. If it is enabled, the metrics data will be</div><div class="line"># posted to alimonitor besides printing to log.</div><div class="line"># topology.performance.metrics: true</div><div class="line"># topology.alimonitor.metrics.post: false</div><div class="line"></div><div class="line"># UI MultiCluster</div><div class="line"># Following is an example of multicluster UI configuration</div><div class="line"> ui.clusters:</div><div class="line">    - &#123;</div><div class="line">        name: &quot;vm-jstorm&quot;,</div><div class="line">        zkRoot: &quot;/jstorm&quot;,</div><div class="line">        zkServers:</div><div class="line">             [&quot;192.168.24.128&quot;],</div><div class="line">        zkPort: 2181,</div><div class="line">      &#125;</div></pre></td></tr></table></figure></p>
+<p>在提交jar的节点上执行:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">#mkdir ~/.jstorm</div><div class="line">#cp -f $JSTORM_HOME/conf/storm.yaml ~/.jstorm</div></pre></td></tr></table></figure></p>
+<h3 id="4-安装jstorm-UI"><a href="#4-安装jstorm-UI" class="headerlink" title="4. 安装jstorm UI"></a>4. 安装jstorm UI</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">mkdir ~/.jstorm</div><div class="line">cp -f $JSTORM_HOME/conf/storm.yaml ~/.jstorm</div><div class="line">下载tomcat 7.x （以apache-tomcat-7.0.37 为例）</div><div class="line">tar -xzf apache-tomcat-7.0.37.tar.gz</div><div class="line">cd apache-tomcat-7.0.37</div><div class="line">cd webapps</div><div class="line">cp $JSTORM_HOME/jstorm-ui-2.1.1.war ./</div><div class="line">mv ROOT ROOT.old</div><div class="line">ln -s jstorm-ui-2.1.1 ROOT           这个地方可能变化，是根据你的JStorm版本来确定，比如当2.1.1时，是ln -s jstorm-2.1.1 ROOT</div><div class="line">另外不是 ln -s jstorm-ui-2.1.1.war ROOT 这个要小心</div><div class="line">cd ../bin</div><div class="line">./startup.sh</div></pre></td></tr></table></figure>
+<h3 id="4-jstrom入门实例"><a href="#4-jstrom入门实例" class="headerlink" title="4. jstrom入门实例"></a>4. jstrom入门实例</h3><p>一个统计jstorm的word-count实例，详见</p>
+<blockquote>
+<p>github word count工程<br><a href="https://github.com/iisoldier/jstorm.git" target="_blank" rel="external">https://github.com/iisoldier/jstorm.git</a></p>
+</blockquote>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/jstorm/" rel="tag">#jstorm</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/12/23/atom原子性/" rel="next" title="使用atom来实现线程安全">
+                <i class="fa fa-chevron-left"></i> 使用atom来实现线程安全
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/12/27/zookeeper介绍与安装部署/" rel="prev" title="zookeeper介绍及集群部署">
+                zookeeper介绍及集群部署 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/12/26/jstorm安装部署/"
+           data-title="jstorm环境搭建及入门实例" data-url="http://yoursite.com/2016/12/26/jstorm安装部署/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://ww2.sinaimg.cn/large/97be9d10gw1f9st394sd9j20zk0sgwib.jpg"
+               alt="isoldier" />
+          <p class="site-author-name" itemprop="name">isoldier</p>
+          <p class="site-description motion-element" itemprop="description">Stay Hungry. Stay Foolish.</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">18</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/iisoldier" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#jstrom-环境搭建及入门实例"><span class="nav-number">1.</span> <span class="nav-text">jstrom 环境搭建及入门实例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-安装zookeeper"><span class="nav-number">2.</span> <span class="nav-text">1. 安装zookeeper</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-安装Python"><span class="nav-number">3.</span> <span class="nav-text">2. 安装Python</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-安装jdk"><span class="nav-number">4.</span> <span class="nav-text">3. 安装jdk</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-安装jstorm"><span class="nav-number">5.</span> <span class="nav-text">4. 安装jstorm</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-安装jstorm-UI"><span class="nav-number">6.</span> <span class="nav-text">4. 安装jstorm UI</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-jstrom入门实例"><span class="nav-number">7.</span> <span class="nav-text">4. jstrom入门实例</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+<span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+
+<span id="busuanzi_container_site_uv">
+  本站访客数<span id="busuanzi_value_site_uv"></span>人次
+</span>
+<div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">isoldier</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"isoldier"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("DeE8jfePCPHSBTga4iJPl7gQ-gzGzoHsz", "EK3uRC11DmrMMzsLQlgfXJxy");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+  <!-- custom analytics part create by xiamo -->
+<script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+<script>AV.initialize("DeE8jfePCPHSBTga4iJPl7gQ-gzGzoHsz", "EK3uRC11DmrMMzsLQlgfXJxy");</script>
+<script>
+function showTime(Counter) {
+	var query = new AV.Query(Counter);
+	$(".leancloud_visitors").each(function() {
+		var url = $(this).attr("id").trim();
+		query.equalTo("url", url);
+		query.find({
+			success: function(results) {
+				if (results.length == 0) {
+					var content = '0 ' + $(document.getElementById(url)).text();
+					$(document.getElementById(url)).text(content);
+					return;
+				}
+				for (var i = 0; i < results.length; i++) {
+					var object = results[i];
+					var content = object.get('time') + ' ' + $(document.getElementById(url)).text();
+					$(document.getElementById(url)).text(content);
+				}
+			},
+			error: function(object, error) {
+				console.log("Error: " + error.code + " " + error.message);
+			}
+		});
+
+	});
+}
+
+function addCount(Counter) {
+	var Counter = AV.Object.extend("Counter");
+	url = $(".leancloud_visitors").attr('id').trim();
+	title = $(".leancloud_visitors").attr('data-flag-title').trim();
+	var query = new AV.Query(Counter);
+	query.equalTo("url", url);
+	query.find({
+		success: function(results) {
+			if (results.length > 0) {
+				var counter = results[0];
+				counter.fetchWhenSave(true);
+				counter.increment("time");
+				counter.save(null, {
+					success: function(counter) {
+						var content =  counter.get('time') + ' ' + $(document.getElementById(url)).text();
+						$(document.getElementById(url)).text(content);
+					},
+					error: function(counter, error) {
+						console.log('Failed to save Visitor num, with error message: ' + error.message);
+					}
+				});
+			} else {
+				var newcounter = new Counter();
+				newcounter.set("title", title);
+				newcounter.set("url", url);
+				newcounter.set("time", 1);
+				newcounter.save(null, {
+					success: function(newcounter) {
+					    console.log("newcounter.get('time')="+newcounter.get('time'));
+						var content = newcounter.get('time') + ' ' + $(document.getElementById(url)).text();
+						$(document.getElementById(url)).text(content);
+					},
+					error: function(newcounter, error) {
+						console.log('Failed to create');
+					}
+				});
+			}
+		},
+		error: function(error) {
+			console.log('Error:' + error.code + " " + error.message);
+		}
+	});
+}
+$(function() {
+	var Counter = AV.Object.extend("Counter");
+	if ($('.leancloud_visitors').length == 1) {
+		addCount(Counter);
+	} else if ($('.post-title-link').length > 1) {
+		showTime(Counter);
+	}
+}); 
+</script>
+  
+  
+</body>
+</html>
