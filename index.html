@@ -320,6 +320,8 @@
           
 
           
+
+          
         </div>
       </header>
     
@@ -485,6 +487,8 @@
           
 
           
+
+          
         </div>
       </header>
     
@@ -630,6 +634,8 @@ export PATH=$PATH:$JSTORM_HOME/bin
           
 
           
+
+          
         </div>
       </header>
     
@@ -750,6 +756,8 @@ export PATH=$PATH:$JSTORM_HOME/bin
           
 
           
+          
+
           
 
           
@@ -887,6 +895,8 @@ export PATH=$PATH:$JSTORM_HOME/bin
           
 
           
+
+          
         </div>
       </header>
     
@@ -1021,6 +1031,8 @@ export PATH=$PATH:$JSTORM_HOME/bin
           
 
           
+
+          
         </div>
       </header>
     
@@ -1142,6 +1154,8 @@ export PATH=$PATH:$JSTORM_HOME/bin
           
 
           
+          
+
           
 
           
@@ -1322,6 +1336,8 @@ export PATH=$PATH:$JSTORM_HOME/bin
           
 
           
+
+          
         </div>
       </header>
     
@@ -1347,141 +1363,6 @@ export PATH=$PATH:$JSTORM_HOME/bin
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">retrieveObjectById</span><span class="params">(Long id)</span></span>&#123;</div><div class="line">   <span class="keyword">try</span>&#123;</div><div class="line">       <span class="comment">//..some code that throws SQLException</span></div><div class="line">    &#125;<span class="keyword">catch</span>(SQLException ex)&#123;</div><div class="line">     <span class="comment">/**</span></div><div class="line">       *了解的人都知道，这里的异常打印毫无意义，仅仅是将错误堆栈输出到控制台。</div><div class="line">       * 而在 Production 环境中，需要将错误堆栈输出到日志。</div><div class="line">       * 而且这里 catch 处理之后程序继续执行，会导致进一步的问题*/</div><div class="line"></div><div class="line">          ex.printStacktrace();</div><div class="line">     &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>我们可以将代码重构成</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">retrieveObjectById</span><span class="params">(Long id)</span></span>&#123;</div><div class="line"> <span class="keyword">try</span>&#123;</div><div class="line">    <span class="comment">//..some code that throws SQLException</span></div><div class="line"> &#125;</div><div class="line"> <span class="keyword">catch</span>(SQLException ex)&#123;</div><div class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(“Exception in retieveObjectById”, ex);</div><div class="line"> &#125;</div><div class="line"> <span class="keyword">finally</span>&#123;</div><div class="line">    <span class="comment">//clean up resultset, statement, connection etc</span></div><div class="line"> &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/12/21/Guava使用基础入门-cache(2)/" itemprop="url">
-                  Guava使用基础入门-cache(2)
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-12-21T21:58:10+08:00" content="2016-12-21">
-              2016-12-21
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/guava/" itemprop="url" rel="index">
-                    <span itemprop="name">guava</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/guava/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/12/21/Guava使用基础入门-cache(2)/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/12/21/Guava使用基础入门-cache(2)/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="0-背景"><a href="#0-背景" class="headerlink" title="0. 背景"></a>0. 背景</h3><p>昨天晚上思考的guava cache做性能优化的问题，今天就简单进行试验了一下，记录一下，以后在具体问题具体分析做进一步的优化，</p>
-<h3 id="1-使用demo介绍"><a href="#1-使用demo介绍" class="headerlink" title="1. 使用demo介绍"></a>1. 使用demo介绍</h3><p>以限制IP访问为例，比如限制某个IP的访问次数或者。某个IP在5秒钟只能访问一次<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.isoldier.guava.cache;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.util.concurrent.ExecutionException;</div><div class="line"><span class="keyword">import</span> java.util.concurrent.TimeUnit;</div><div class="line"></div><div class="line"><span class="keyword">import</span> com.google.common.cache.CacheBuilder;</div><div class="line"><span class="keyword">import</span> com.google.common.cache.CacheLoader;</div><div class="line"><span class="keyword">import</span> com.google.common.cache.LoadingCache;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * 访问次数限制，限制多长时间访问一次</div><div class="line"> * <span class="doctag">@author</span> isoldier</div><div class="line"> *</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CacheManual</span> </span>&#123;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span> </span>&#123;</div><div class="line"></div><div class="line">		LoadingCache&lt;String, Boolean&gt; isCached = CacheBuilder.newBuilder()</div><div class="line">				.maximumSize(<span class="number">100</span>).expireAfterAccess(<span class="number">5</span>, TimeUnit.SECONDS)</div><div class="line">				.build(<span class="keyword">new</span> CacheLoader&lt;String, Boolean&gt;() &#123;</div><div class="line">					<span class="meta">@Override</span></div><div class="line">					<span class="function"><span class="keyword">public</span> Boolean <span class="title">load</span><span class="params">(String IP)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">						<span class="comment">// make the expensive call</span></div><div class="line">						System.out.println(<span class="string">"make the expensive call "</span>);</div><div class="line"></div><div class="line">						<span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">					&#125;</div><div class="line">				&#125;);</div><div class="line">		<span class="keyword">try</span> &#123;</div><div class="line">			<span class="comment">// on first invocation, cache will be populated with corresponding</span></div><div class="line">			<span class="comment">// employee record</span></div><div class="line">			String ip = <span class="string">"192.168.24.110"</span>;</div><div class="line">			System.out.println(<span class="string">"Invocation #1"</span>);</div><div class="line">			System.out.println(isCached.get(ip));</div><div class="line">			<span class="keyword">if</span> (!isCached.get(ip)) &#123;</div><div class="line">				isCached.put(ip, <span class="keyword">true</span>);</div><div class="line">			&#125;</div><div class="line"></div><div class="line">			Thread.sleep(<span class="number">6</span>*<span class="number">1000</span>);</div><div class="line">			<span class="comment">//</span></div><div class="line">			System.out.println(<span class="string">"Invocation #2"</span>);</div><div class="line">			System.out.println(isCached.get(ip));</div><div class="line"></div><div class="line"></div><div class="line">			<span class="keyword">if</span>(isCached.get(ip))&#123;</div><div class="line">				System.out.println(<span class="string">"访问次数超限 "</span>);</div><div class="line">			&#125;<span class="keyword">else</span>&#123;</div><div class="line">				System.out.println(<span class="string">"访问正常"</span>);</div><div class="line">			&#125;</div><div class="line"></div><div class="line">		&#125; <span class="keyword">catch</span> (ExecutionException e) &#123;</div><div class="line">			e.printStackTrace();</div><div class="line">		&#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</div><div class="line">			<span class="comment">// TODO Auto-generated catch block</span></div><div class="line">			e.printStackTrace();</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>运行结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">Invocation #1</div><div class="line">make the expensive call</div><div class="line">false</div><div class="line">Invocation #2</div><div class="line">make the expensive call</div><div class="line">false</div><div class="line">访问正常</div></pre></td></tr></table></figure></p>
-<p>注释掉Thread.sleep(6*1000);运行结果如下<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">Invocation #1</div><div class="line">make the expensive call</div><div class="line">false</div><div class="line">Invocation #2</div><div class="line">true</div><div class="line">访问次数超限</div></pre></td></tr></table></figure></p>
 
           
         
@@ -1600,6 +1481,8 @@ export PATH=$PATH:$JSTORM_HOME/bin
           
 
           
+
+          
         </div>
       </header>
     
@@ -1623,6 +1506,143 @@ export PATH=$PATH:$JSTORM_HOME/bin
 <p>在使用缓存前，首先问自己一个问题：有没有合理的默认方法来加载或计算与键关联的值？如果有的话，你应当使用CacheLoader。如果没有，或者你想要覆盖默认的加载运算，同时保留”获取缓存-如果没有-则计算”[get-if-absent-compute]的原子语义，你应该在调用get时传入一个Callable实例。缓存元素也可以通过Cache.put方法直接插入，但自动加载是首选的，因为它可以更容易地推断所有缓存内容的一致性。</p>
 <h3 id="2-使用demo"><a href="#2-使用demo" class="headerlink" title="2. 使用demo"></a>2. 使用demo</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.isoldier.guava.cache;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.util.HashMap;</div><div class="line"><span class="keyword">import</span> java.util.Map;</div><div class="line"><span class="keyword">import</span> java.util.concurrent.ExecutionException;</div><div class="line"><span class="keyword">import</span> java.util.concurrent.TimeUnit;</div><div class="line"></div><div class="line"><span class="keyword">import</span> com.google.common.base.MoreObjects;</div><div class="line"><span class="keyword">import</span> com.google.common.cache.CacheBuilder;</div><div class="line"><span class="keyword">import</span> com.google.common.cache.CacheLoader;</div><div class="line"><span class="keyword">import</span> com.google.common.cache.LoadingCache;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CacheDemo</span> </span>&#123;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span> </span>&#123;</div><div class="line"></div><div class="line"></div><div class="line">		<span class="comment">// create a cache for employees based on their employee id</span></div><div class="line">		LoadingCache&lt;String, Employee&gt; employeeCache = CacheBuilder</div><div class="line">				.newBuilder().maximumSize(<span class="number">100</span>) <span class="comment">// maximum 100 records can be cached												</span></div><div class="line">				.expireAfterAccess(<span class="number">30</span>, TimeUnit.MINUTES) <span class="comment">// cache will expire after 30 minutes of access														</span></div><div class="line">				.build(<span class="keyword">new</span> CacheLoader&lt;String, Employee&gt;() &#123; <span class="comment">// build the cacheloader																</span></div><div class="line">					<span class="meta">@Override</span></div><div class="line">					<span class="function"><span class="keyword">public</span> Employee <span class="title">load</span><span class="params">(String empId)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">						<span class="comment">// make the expensive call</span></div><div class="line">						<span class="keyword">return</span> getFromDatabase(empId);</div><div class="line">					&#125;</div><div class="line">				&#125;);</div><div class="line"></div><div class="line">		<span class="keyword">try</span> &#123;</div><div class="line">			<span class="comment">// on first invocation, cache will be populated with corresponding</span></div><div class="line">			<span class="comment">// employee record</span></div><div class="line">			System.out.println(<span class="string">"Invocation #1"</span>);</div><div class="line">			System.out.println(employeeCache.get(<span class="string">"100"</span>));</div><div class="line">			System.out.println(employeeCache.get(<span class="string">"103"</span>));</div><div class="line">			System.out.println(employeeCache.get(<span class="string">"110"</span>));</div><div class="line"></div><div class="line">			<span class="comment">// second invocation, data will be returned from cache</span></div><div class="line">			System.out.println(<span class="string">"Invocation #2"</span>);</div><div class="line">			System.out.println(employeeCache.get(<span class="string">"100"</span>));</div><div class="line">			System.out.println(employeeCache.get(<span class="string">"103"</span>));</div><div class="line">			System.out.println(employeeCache.get(<span class="string">"110"</span>));</div><div class="line"></div><div class="line">		&#125; <span class="keyword">catch</span> (ExecutionException e) &#123;</div><div class="line">			e.printStackTrace();</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">static</span> Employee <span class="title">getFromDatabase</span><span class="params">(String empId)</span> </span>&#123;</div><div class="line"></div><div class="line">		Employee e1 = <span class="keyword">new</span> Employee(<span class="string">"Mahesh"</span>, <span class="string">"Finance"</span>, <span class="string">"100"</span>);</div><div class="line">		Employee e2 = <span class="keyword">new</span> Employee(<span class="string">"Rohan"</span>, <span class="string">"IT"</span>, <span class="string">"103"</span>);</div><div class="line">		Employee e3 = <span class="keyword">new</span> Employee(<span class="string">"Sohan"</span>, <span class="string">"Admin"</span>, <span class="string">"110"</span>);</div><div class="line"></div><div class="line">		Map&lt;String, Employee&gt; database = <span class="keyword">new</span> HashMap&lt;String, Employee&gt;();</div><div class="line"></div><div class="line">		database.put(<span class="string">"100"</span>, e1);</div><div class="line">		database.put(<span class="string">"103"</span>, e2);</div><div class="line">		database.put(<span class="string">"110"</span>, e3);</div><div class="line"></div><div class="line">		System.out.println(<span class="string">"Database hit for"</span> + empId);</div><div class="line"></div><div class="line">		<span class="keyword">return</span> database.get(empId);</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Employee</span> </span>&#123;</div><div class="line">	String name;</div><div class="line">	String dept;</div><div class="line">	String emplD;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="title">Employee</span><span class="params">(String name, String dept, String empID)</span> </span>&#123;</div><div class="line">		<span class="keyword">this</span>.name = name;</div><div class="line">		<span class="keyword">this</span>.dept = dept;</div><div class="line">		<span class="keyword">this</span>.emplD = empID;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</div><div class="line">		<span class="keyword">return</span> name;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>&#123;</div><div class="line">		<span class="keyword">this</span>.name = name;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getDept</span><span class="params">()</span> </span>&#123;</div><div class="line">		<span class="keyword">return</span> dept;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setDept</span><span class="params">(String dept)</span> </span>&#123;</div><div class="line">		<span class="keyword">this</span>.dept = dept;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getEmplD</span><span class="params">()</span> </span>&#123;</div><div class="line">		<span class="keyword">return</span> emplD;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setEmplD</span><span class="params">(String emplD)</span> </span>&#123;</div><div class="line">		<span class="keyword">this</span>.emplD = emplD;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="meta">@Override</span></div><div class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</div><div class="line">		<span class="keyword">return</span> MoreObjects.toStringHelper(Employee.class).add(<span class="string">"Name"</span>, name)</div><div class="line">				.add(<span class="string">"Department"</span>, dept).add(<span class="string">"Emp Id"</span>, emplD).toString();</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>程序运行结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">Invocation #1</div><div class="line">Database hit for100</div><div class="line">Employee&#123;Name=Mahesh, Department=Finance, Emp Id=100&#125;</div><div class="line">Database hit for103</div><div class="line">Employee&#123;Name=Rohan, Department=IT, Emp Id=103&#125;</div><div class="line">Database hit for110</div><div class="line">Employee&#123;Name=Sohan, Department=Admin, Emp Id=110&#125;</div><div class="line">Invocation #2</div><div class="line">Employee&#123;Name=Mahesh, Department=Finance, Emp Id=100&#125;</div><div class="line">Employee&#123;Name=Rohan, Department=IT, Emp Id=103&#125;</div><div class="line">Employee&#123;Name=Sohan, Department=Admin, Emp Id=110&#125;</div></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/12/21/Guava使用基础入门-cache(2)/" itemprop="url">
+                  Guava使用基础入门-cache(2)
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-12-21T21:58:10+08:00" content="2016-12-21">
+              2016-12-21
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/guava/" itemprop="url" rel="index">
+                    <span itemprop="name">guava</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/guava/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/12/21/Guava使用基础入门-cache(2)/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/12/21/Guava使用基础入门-cache(2)/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="0-背景"><a href="#0-背景" class="headerlink" title="0. 背景"></a>0. 背景</h3><p>昨天晚上思考的guava cache做性能优化的问题，今天就简单进行试验了一下，记录一下，以后在具体问题具体分析做进一步的优化，</p>
+<h3 id="1-使用demo介绍"><a href="#1-使用demo介绍" class="headerlink" title="1. 使用demo介绍"></a>1. 使用demo介绍</h3><p>以限制IP访问为例，比如限制某个IP的访问次数或者。某个IP在5秒钟只能访问一次<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.isoldier.guava.cache;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.util.concurrent.ExecutionException;</div><div class="line"><span class="keyword">import</span> java.util.concurrent.TimeUnit;</div><div class="line"></div><div class="line"><span class="keyword">import</span> com.google.common.cache.CacheBuilder;</div><div class="line"><span class="keyword">import</span> com.google.common.cache.CacheLoader;</div><div class="line"><span class="keyword">import</span> com.google.common.cache.LoadingCache;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * 访问次数限制，限制多长时间访问一次</div><div class="line"> * <span class="doctag">@author</span> isoldier</div><div class="line"> *</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CacheManual</span> </span>&#123;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span> </span>&#123;</div><div class="line"></div><div class="line">		LoadingCache&lt;String, Boolean&gt; isCached = CacheBuilder.newBuilder()</div><div class="line">				.maximumSize(<span class="number">100</span>).expireAfterAccess(<span class="number">5</span>, TimeUnit.SECONDS)</div><div class="line">				.build(<span class="keyword">new</span> CacheLoader&lt;String, Boolean&gt;() &#123;</div><div class="line">					<span class="meta">@Override</span></div><div class="line">					<span class="function"><span class="keyword">public</span> Boolean <span class="title">load</span><span class="params">(String IP)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">						<span class="comment">// make the expensive call</span></div><div class="line">						System.out.println(<span class="string">"make the expensive call "</span>);</div><div class="line"></div><div class="line">						<span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">					&#125;</div><div class="line">				&#125;);</div><div class="line">		<span class="keyword">try</span> &#123;</div><div class="line">			<span class="comment">// on first invocation, cache will be populated with corresponding</span></div><div class="line">			<span class="comment">// employee record</span></div><div class="line">			String ip = <span class="string">"192.168.24.110"</span>;</div><div class="line">			System.out.println(<span class="string">"Invocation #1"</span>);</div><div class="line">			System.out.println(isCached.get(ip));</div><div class="line">			<span class="keyword">if</span> (!isCached.get(ip)) &#123;</div><div class="line">				isCached.put(ip, <span class="keyword">true</span>);</div><div class="line">			&#125;</div><div class="line"></div><div class="line">			Thread.sleep(<span class="number">6</span>*<span class="number">1000</span>);</div><div class="line">			<span class="comment">//</span></div><div class="line">			System.out.println(<span class="string">"Invocation #2"</span>);</div><div class="line">			System.out.println(isCached.get(ip));</div><div class="line"></div><div class="line"></div><div class="line">			<span class="keyword">if</span>(isCached.get(ip))&#123;</div><div class="line">				System.out.println(<span class="string">"访问次数超限 "</span>);</div><div class="line">			&#125;<span class="keyword">else</span>&#123;</div><div class="line">				System.out.println(<span class="string">"访问正常"</span>);</div><div class="line">			&#125;</div><div class="line"></div><div class="line">		&#125; <span class="keyword">catch</span> (ExecutionException e) &#123;</div><div class="line">			e.printStackTrace();</div><div class="line">		&#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</div><div class="line">			<span class="comment">// TODO Auto-generated catch block</span></div><div class="line">			e.printStackTrace();</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>运行结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">Invocation #1</div><div class="line">make the expensive call</div><div class="line">false</div><div class="line">Invocation #2</div><div class="line">make the expensive call</div><div class="line">false</div><div class="line">访问正常</div></pre></td></tr></table></figure></p>
+<p>注释掉Thread.sleep(6*1000);运行结果如下<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">Invocation #1</div><div class="line">make the expensive call</div><div class="line">false</div><div class="line">Invocation #2</div><div class="line">true</div><div class="line">访问次数超限</div></pre></td></tr></table></figure></p>
 
           
         
@@ -1885,5 +1905,7 @@ export PATH=$PATH:$JSTORM_HOME/bin
 
   
 
+  
+  
 </body>
 </html>
